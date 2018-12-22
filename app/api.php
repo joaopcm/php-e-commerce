@@ -48,37 +48,23 @@ $app->notFound(function () use ($app) {
 });
 
 /**
- * Página de login - GET
+ * Página principal da loja - GET
  */
-$app->get('/login', function() {
-    if (isset($_SESSION['User'])) {
-        header('Location: /');
-        exit;
-    }
-    $page = new Page([
-        'header' => false,
-        'footer' => false,
-    ]);
-    $page->setTpl('login');
-});
-
-/**
- * Rota de login - POST
- */
-$app->post('/login', function () {
-    // Code...
+$app->get('/', function () {
+    $page = new Page();
+    $page->setTpl('index');
 });
 
 /**
  * Grupo de rotas administrativas
  */
-$app->group(null, function () use ($app) {
+$app->group('/admin', function () use ($app) {
 
     /**
-     * Página principal - GET
+     * Página principal administrativa - GET
      */
     $app->get('/', function () {
-        $page = new Page();
+        $page = new PageAdmin();
         $page->setTpl('index');
     });
 
