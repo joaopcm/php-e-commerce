@@ -144,6 +144,19 @@ $app->post('/admin/forgot/reset', function() {
 });
 
 /**
+ * Página de categoria - GET
+ */
+$app->get('/categoria/:idcategory', function($idcategory) {
+    $category = new Category();
+    $category->get((int)$idcategory);
+    $page = new Page();
+    $page->setTpl('category', array(
+        'category' => $category->getValues(),
+        'products' => array()
+    ));
+});
+
+/**
  * Grupo de rotas administrativas
  */
 $app->group('/admin', function () use ($app) {

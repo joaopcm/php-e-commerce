@@ -27,6 +27,7 @@ class Category extends Model {
             ':descategory' => $this->getdescategory()
         ));
         $this->setData($results[0]);
+        Category::updateFile();
     }
 
     /**
@@ -50,6 +51,33 @@ class Category extends Model {
         $sql->select('DELETE FROM tb_categories WHERE idcategory = :idcategory', array(
             ':idcategory' => $this->getidcategory()
         ));
+        Category::updateFile();
+    }
+
+    /**
+     * Atualiza o arquivo de menu de categorias
+     */
+    public static function updateFile()
+    {
+        $categories = Category::listAll();
+        $html = [];
+        foreach ($categories as $row) {
+            array_push($html, '
+            <li class="p-b-10">
+                <a href="/categoria/' . $row['idcategory'] . '" class="stext-107 cl7 hov-cl1 trans-04">
+                    ' . $row['descategory'] . '
+                </a>
+            </li>');
+        }
+        file_put_contents($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'categories-menu-footer.html', implode('', $html));
+        $html = [];
+        foreach ($categories as $row) {
+            array_push($html, '
+            <a href="/categoria/' . $row['idcategory'] . '" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
+                ' . $row['descategory'] . '
+            </a>');
+        }
+        file_put_contents($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'categories-menu-index.html', implode('', $html));
     }
 
 }
