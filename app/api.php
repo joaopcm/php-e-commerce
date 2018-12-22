@@ -23,17 +23,10 @@ require_once 'config.php';
 /**
  * Namespaces
  */
-use \Loja\Middleware\authenticateForRole;
 use \Loja\Model\User;
-use \Loja\Model\Senha;
 use \Loja\Model\PageAdmin;
 use \Loja\Model\Page;
 use \Slim\Slim;
-
-/**
- * Middlewares
- */
-$authenticateForRole = new authenticateForRole();
 
 /**
  * Instância do Slim Framework
@@ -56,6 +49,35 @@ $app->get('/', function () {
 });
 
 /**
+ * Página de login - GET
+ */
+$app->get('/admin/login', function() {
+    $page = new PageAdmin(array(
+        'header' => false,
+        'footer' => false
+    ));
+    $page->setTpl('login');
+});
+
+/**
+ * Rota de login - POST
+ */
+$app->post('/admin/login', function() {
+    User::login($_POST['username'], $_POST['password']);
+    header('Location: /admin');
+    exit;
+});
+
+/**
+ * Rota de logout - GET
+ */
+$app->get('/admin/logout', function() {
+    User::logout();
+    header('Location: /admin/login');
+    exit;
+});
+
+/**
  * Grupo de rotas administrativas
  */
 $app->group('/admin', function () use ($app) {
@@ -64,6 +86,7 @@ $app->group('/admin', function () use ($app) {
      * Página principal administrativa - GET
      */
     $app->get('/', function () {
+        User::verifyLogin();
         $page = new PageAdmin();
         $page->setTpl('index');
     });
