@@ -72,7 +72,7 @@ $app->post('/login', function () {
 /**
  * Grupo de rotas administrativas
  */
-$app->group(null, $authenticateForRole->call(), function () use ($app) {
+$app->group(null, function () use ($app) {
 
     /**
      * Página principal - GET
