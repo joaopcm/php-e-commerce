@@ -1,13 +1,18 @@
 <?php
 
 use \Loja\Model\Page;
+use \Loja\Model\Category;
+use \Loja\Model\Product;
 
 /**
  * Página principal da loja - GET
  */
 $app->get('/', function () {
     $page = new Page();
-    $page->setTpl('index');
+    $products = Product::listAll();
+    $page->setTpl('index', array(
+        'products' => Product::checkList($products)
+    ));
 });
 
 /**

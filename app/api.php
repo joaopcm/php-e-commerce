@@ -27,6 +27,9 @@ $app->notFound(function () use ($app) {
     $app->redirect('/');
 });
 
+// Funções úteis
+require_once './functions.php';
+
 // Rotas do site
 require_once './routes/site.php';
 

@@ -17,6 +17,19 @@ class Product extends Model {
     }
 
     /**
+     * Faz uma checagem na lista retornada
+     */
+    public static function checkList($list)
+    {
+        foreach ($list as &$row) {
+            $p = new Product();
+            $p->setData($row);
+            $row = $p->getValues();
+        }
+        return $list;
+    }
+
+    /**
      * Cadastra um produto no banco de dados
      */
     public function save()

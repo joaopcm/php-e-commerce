@@ -41,11 +41,11 @@
                   <tr>
                     <td>{$value.idproduct}</td>
                     <td>{$value.desproduct}</td>
-                    <td>{$value.vlprice}</td>
-                    <td>{$value.vlwidth}</td>
-                    <td>{$value.vlheight}</td>
-                    <td>{$value.vllength}</td>
-                    <td>{$value.vlweight}</td>
+                    <td>R$ {$value.vlprice}</td>
+                    <td>{$value.vlwidth} cm</td>
+                    <td>{$value.vlheight} cm</td>
+                    <td>{$value.vllength} cm</td>
+                    <td>{$value.vlweight} kg</td>
                     <td>
                       <a href="/admin/produtos/{$value.idproduct}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Editar</a>
                       <a href="/admin/produtos/{$value.idproduct}/excluir" onclick="return confirm('Deseja realmente excluir este produto?')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Excluir</a>
