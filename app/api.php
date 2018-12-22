@@ -78,6 +78,71 @@ $app->get('/admin/logout', function() {
 });
 
 /**
+ * Página de recuperação de senha - GET
+ */
+$app->get('/admin/forgot', function() {
+    $page = new PageAdmin(array(
+        'header' => false,
+        'footer' => false
+    ));
+    $page->setTpl('forgot');
+});
+
+/**
+ * Rota de recuperação de senha - POST
+ */
+$app->post('/admin/forgot', function() {
+    $user = User::getForgot($_POST['email']);
+    header('Location: /admin/forgot/sent');
+    exit;
+});
+
+/**
+ * Página de confirmação de envio para recuperação de senha - GET
+ */
+$app->get('/admin/forgot/sent', function() {
+    $page = new PageAdmin(array(
+        'header' => false,
+        'footer' => false
+    ));
+    $page->setTpl('forgot-sent');
+});
+
+/**
+ * Página de resetar a senha - GET
+ */
+$app->get('/admin/forgot/reset', function() {
+    $user = User::validForgotDecrypt($_GET['code']);
+    $page = new PageAdmin(array(
+        'header' => false,
+        'footer' => false
+    ));
+    $page->setTpl('forgot-reset', array(
+        'name' => $user['desperson'],
+        'code' => $_GET['code']
+    ));
+});
+
+/**
+ * Rota de redefinição de senha - POST
+ */
+$app->post('/admin/forgot/reset', function() {
+    $forgot = User::validForgotDecrypt($_POST['code']);
+    User::setForgotUsed($forgot['idrecovery']);
+    $user = new User();
+    $user->get((int)$forgot['iduser']);
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT, [
+        'cost' => 12
+    ]);
+    $user->setPassword($password);
+    $page = new PageAdmin(array(
+        'header' => false,
+        'footer' => false
+    ));
+    $page->setTpl('forgot-reset-success');
+});
+
+/**
  * Grupo de rotas administrativas
  */
 $app->group('/admin', function () use ($app) {
@@ -155,7 +220,7 @@ $app->group('/admin', function () use ($app) {
     /**
      * Rota de edição de usuários - POST
      */
-    $app->POST('/usuarios/:id', function($id) {
+    $app->post('/usuarios/:id', function($id) {
         User::verifyLogin();
         $user = new User();
         $user->get((int)$id);
