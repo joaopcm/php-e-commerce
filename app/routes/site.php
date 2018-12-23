@@ -3,6 +3,7 @@
 use \Loja\Model\Page;
 use \Loja\Model\Category;
 use \Loja\Model\Product;
+use \Loja\Model\Cart;
 
 /**
  * Página principal da loja - GET
@@ -49,4 +50,10 @@ $app->get('/produto/:desurl', function($desurl) {
         'product' => $product->getValues(),
         'categories' => $product->getCategories()
     ));
+});
+
+$app->get('/carrinho', function() {
+    $cart = Cart::getFromSession();
+    $page = new Page();
+    $page->setTpl('shoping-cart');
 });

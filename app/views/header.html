@@ -7,6 +7,7 @@
         {if="$url[1] === 'categoria'"}Categoria
         {elseif="$url[1] === ''"}Loja
         {elseif="$url[1] === 'produto'"}Produto
+        {elseif="$url[1] === 'carrinho'"}Carrinho
         {/if} - {function="getenv('COMPANY_NAME')"}</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -71,7 +72,7 @@
                     <!-- Menu desktop -->
                     <div class="menu-desktop">
                         <ul class="main-menu">
-                            <li class="active-menu">
+                            <li class="{if="$url[1] === ''"}active-menu{/if}">
                                 <a href="/">Início</a>
                                 <!-- <ul class="sub-menu">
                                     <li><a href="index.html">Homepage 1</a></li>
@@ -80,23 +81,30 @@
                                 </ul> -->
                             </li>
 
-                            <li>
+                            <!-- <li>
                                 <a href="/produtos">Produtos</a>
+                            </li> -->
+
+                            <li class="{if="$url[1] === 'categoria'"}active-menu{/if}">
+                                <a href="/">Categorias</a>
+                                <ul class="sub-menu">
+                                    {include="categories-menu-header"}
+                                </ul>
                             </li>
 
-                            <li class="label1" data-label1="2">
-                                <a href="/carrinho">Carrinho</a>
+                            <li class="label1 {if="$url[1] === 'carrinho'"}active-menu{/if}" data-label1="2">
+                                <a href="/carrinho">Meu Carrinho</a>
                             </li>
 
                             <!-- <li>
                                 <a href="/blog">Blog</a>
                             </li> -->
 
-                            <li>
+                            <li class="{if="$url[1] === 'sobre'"}active-menu{/if}">
                                 <a href="/about">Sobre</a>
                             </li>
 
-                            <li>
+                            <li class="{if="$url[1] === 'contato'"}active-menu{/if}">
                                 <a href="/contato">Contato</a>
                             </li>
                         </ul>
@@ -160,7 +168,7 @@
             <ul class="topbar-mobile">
                 <li>
                     <div class="left-top-bar">
-                        Free shipping for standard order over $100
+                        Frete grátis para compras acima de R$ 150,00!
                     </div>
                 </li>
 
@@ -186,36 +194,40 @@
             </ul>
 
             <ul class="main-menu-m">
-                <li>
-                    <a href="index.html">Home</a>
-                    <ul class="sub-menu-m">
+                <li class="{if="$url[1] === ''"}active-menu{/if}">
+                    <a href="/">Início</a>
+                    <!-- <ul class="sub-menu">
                         <li><a href="index.html">Homepage 1</a></li>
                         <li><a href="home-02.html">Homepage 2</a></li>
                         <li><a href="home-03.html">Homepage 3</a></li>
+                    </ul> -->
+                </li>
+
+                <!-- <li>
+                    <a href="/produtos">Produtos</a>
+                </li> -->
+
+                <li class="{if="$url[1] === 'categoria'"}active-menu{/if}">
+                    <a href="/">Categorias</a>
+                    <ul class="sub-menu-m">
+                        {include="categories-menu-header"}
                     </ul>
-                    <span class="arrow-main-menu-m">
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                    </span>
                 </li>
 
-                <li>
-                    <a href="product.html">Shop</a>
+                <li class="label1 {if="$url[1] === 'carrinho'"}active-menu{/if}" data-label1="2">
+                    <a href="/carrinho">Meu Carrinho</a>
                 </li>
 
-                <li>
-                    <a href="shoping-cart.html" class="label1 rs1" data-label1="hot">Features</a>
+                <!-- <li>
+                    <a href="/blog">Blog</a>
+                </li> -->
+
+                <li class="{if="$url[1] === 'sobre'"}active-menu{/if}">
+                    <a href="/about">Sobre</a>
                 </li>
 
-                <li>
-                    <a href="blog.html">Blog</a>
-                </li>
-
-                <li>
-                    <a href="about.html">About</a>
-                </li>
-
-                <li>
-                    <a href="contact.html">Contact</a>
+                <li class="{if="$url[1] === 'contato'"}active-menu{/if}">
+                    <a href="/contato">Contato</a>
                 </li>
             </ul>
         </div>
@@ -244,7 +256,7 @@
         <div class="header-cart flex-col-l p-l-65 p-r-25">
             <div class="header-cart-title flex-w flex-sb-m p-b-8">
                 <span class="mtext-103 cl2">
-                    Your Cart
+                    Seu carrinho
                 </span>
 
                 <div class="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-cart">
@@ -269,38 +281,6 @@
                             </span>
                         </div>
                     </li>
-
-                    <li class="header-cart-item flex-w flex-t m-b-12">
-                        <div class="header-cart-item-img">
-                            <img src="/res/site/images/item-cart-02.jpg" alt="IMG">
-                        </div>
-
-                        <div class="header-cart-item-txt p-t-8">
-                            <a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
-                                Converse All Star
-                            </a>
-
-                            <span class="header-cart-item-info">
-                                1 x $39.00
-                            </span>
-                        </div>
-                    </li>
-
-                    <li class="header-cart-item flex-w flex-t m-b-12">
-                        <div class="header-cart-item-img">
-                            <img src="/res/site/images/item-cart-03.jpg" alt="IMG">
-                        </div>
-
-                        <div class="header-cart-item-txt p-t-8">
-                            <a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
-                                Nixon Porter Leather
-                            </a>
-
-                            <span class="header-cart-item-info">
-                                1 x $17.00
-                            </span>
-                        </div>
-                    </li>
                 </ul>
 
                 <div class="w-full">
@@ -309,12 +289,12 @@
                     </div>
 
                     <div class="header-cart-buttons flex-w w-full">
-                        <a href="/res/site/shoping-cart.html" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
-                            View Cart
+                        <a href="/carrinho" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
+                            Var carrinho
                         </a>
 
                         <a href="/res/site/shoping-cart.html" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
-                            Check Out
+                            Finalizar
                         </a>
                     </div>
                 </div>
