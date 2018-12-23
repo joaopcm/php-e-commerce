@@ -19,11 +19,21 @@ $app->get('/', function () {
  * Página de categoria - GET
  */
 $app->get('/categoria/:idcategory', function($idcategory) {
+    $page = (isset($_GET['page'])) ? (int)$_GET['page'] : 1;
+    $pages = array();
     $category = new Category();
     $category->get((int)$idcategory);
+    $pagination = $category->getProductsPage($page);
+    for ($i = 1; $i <= $pagination['pages']; $i++) { 
+        array_push($pages, array(
+            'page' => $i,
+            'link' => '/categoria/' . $category->getidcategory() . '?page=' . $i
+        ));
+    }
     $page = new Page();
     $page->setTpl('category', array(
         'category' => $category->getValues(),
-        'products' => Product::checkList($category->getProducts())
+        'products' => $pagination['data'],
+        'pages' => $pages
     ));
 });
