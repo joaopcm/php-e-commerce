@@ -60,7 +60,8 @@ $app->get('/carrinho', function() {
     $page = new Page();
     $page->setTpl('shoping-cart', array(
         'cart' => $cart->getValues(),
-        'products' => $cart->getProducts()
+        'products' => $cart->getProducts(),
+        'error' => Cart::getMsgError()
     ));
 });
 
@@ -99,6 +100,16 @@ $app->get('/carrinho/:idproduct/remover', function($idproduct) {
     $product->get((int)$idproduct);
     $cart = Cart::getFromSession();
     $cart->removeProduct($product, true);
+    header('Location: /carrinho');
+    exit;
+});
+
+/**
+ * Rota de cálculo de frete - POST
+ */
+$app->post('/carrinho/frete', function() {
+    $cart = Cart::getFromSession();
+    $cart->setFreight($_POST['postcode']);
     header('Location: /carrinho');
     exit;
 });
