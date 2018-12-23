@@ -35,7 +35,7 @@ class Product extends Model {
     public function save()
     {
         $sql = new Sql();
-        $results = $sql->select('CALL sp_products_save(:idproduct, :desproduct, :vlprice, :vlwidth, :vlheight, :vllength, :vlweight, :desurl)', array(
+        $results = $sql->select('CALL sp_products_save(:idproduct, :desproduct, :vlprice, :vlwidth, :vlheight, :vllength, :vlweight, :deslitledescription, :desdescription, :desurl)', array(
             ':idproduct' => $this->getidproduct(),
             ':desproduct' => $this->getdesproduct(),
             ':vlprice' => $this->getvlprice(),
@@ -43,6 +43,8 @@ class Product extends Model {
             ':vlheight' => $this->getvlheight(),
             ':vllength' => $this->getvllength(),
             ':vlweight' => $this->getvlweight(),
+            ':deslitledescription' => $this->getdeslitledescription(),
+            ':desdescription' => $this->getdesdescription(),
             ':desurl' => $this->getdesurl()
         ));
         $this->setData($results[0]);
@@ -120,6 +122,29 @@ class Product extends Model {
         imagejpeg($image, $dist);
         imagedestroy($image);
         $this->checkPhoto();
+    }
+
+    /**
+     * Retorna dados de um produto de acordo com a URL passada
+     */
+    public function getFromURL(string $desurl)
+    {
+        $sql = new Sql();
+        $rows = $sql->select('SELECT * FROM tb_products WHERE desurl = :desurl LIMIT 1', array(
+            ':desurl' => $desurl
+        ));
+        $this->setData($rows[0]);
+    }
+
+    /**
+     * Retorna todas as categorias de um produto
+     */
+    public function getCategories()
+    {
+        $sql = new Sql();
+        return $sql->select('SELECT * FROM tb_categories a INNER JOIN tb_productscategories b USING (idcategory) WHERE b.idproduct = :idproduct', array(
+            ':idproduct' => $this->getidproduct()
+        ));
     }
 
 }
