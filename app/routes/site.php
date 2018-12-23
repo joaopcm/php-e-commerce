@@ -121,13 +121,75 @@ $app->post('/carrinho/frete', function() {
  */
 $app->get('/finalizar', function() {
     User::verifyLogin(false);
-    $page = new Page();
-    $cart = Cart::getFromSession();
     $address = new Address();
+    $cart = Cart::getFromSession();
+    if (isset($_GET['deszipcode'])) {
+        $_GET['deszipcode'] = $cart->getdeszipcode();
+    }
+    if (isset($_GET['deszipcode'])) {
+        $address->loadFromCEP($_GET['deszipcode']);
+        $cart->setdeszipcode($_GET['deszipcode']);
+        $cart->save();
+        $cart->getCalcTotal();
+    }
+    if (!$address->getdesaddress()) $address->setdesaddress('');
+    if (!$address->getdescomplement()) $address->setdescomplement('');
+    if (!$address->getdesdistrict()) $address->setdesdistrict('');
+    if (!$address->getdescity()) $address->setdescity('');
+    if (!$address->getdesstate()) $address->setdesstate('');
+    if (!$address->getdescountry()) $address->setdescountry('');
+    if (!$address->getdeszipcode()) $address->setdeszipcode('');
+    $page = new Page();
     $page->setTpl('checkout', array(
         'cart' => $cart->getValues(),
-        'address' => $address->getValues()
+        'address' => $address->getValues(),
+        'products' => $cart->getProducts(),
+        'error' => Address::getMsgError()
     ));
+});
+
+/**
+ * Rota de finalizar compra - POST
+ */
+$app->post('/finalizar', function() {
+    if (!isset($_POST['deszipcode']) || $_POST['deszipcode'] === '') {
+        Address::setMsgError('Informe o CEP.');
+        header('Location: /finalizar');
+        exit;
+    }
+    if (!isset($_POST['desaddress']) || $_POST['desaddress'] === '') {
+        Address::setMsgError('Informe o endereço.');
+        header('Location: /finalizar');
+        exit;
+    }
+    if (!isset($_POST['desdistrict']) || $_POST['desdistrict'] === '') {
+        Address::setMsgError('Informe o bairro.');
+        header('Location: /finalizar');
+        exit;
+    }
+    if (!isset($_POST['descity']) || $_POST['descity'] === '') {
+        Address::setMsgError('Informe a cidade.');
+        header('Location: /finalizar');
+        exit;
+    }
+    if (!isset($_POST['desstate']) || $_POST['desstate'] === '') {
+        Address::setMsgError('Informe o estado.');
+        header('Location: /finalizar');
+        exit;
+    }
+    if (!isset($_POST['descountry']) || $_POST['descountry'] === '') {
+        Address::setMsgError('Informe o país.');
+        header('Location: /finalizar');
+        exit;
+    }
+    User::verifyLogin(false);
+    $address = new Address();
+    $user = User::getFromSession();
+    $_POST['idperson'] = $user->getidperson();
+    $address->setData($_POST);
+    $address->save();
+    header('Location: /pagamento');
+    exit;
 });
 
 /**

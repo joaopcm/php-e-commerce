@@ -3,17 +3,19 @@
 
 <head>
     {$url = explode('/', $_SERVER['REQUEST_URI'])}
+    {$dir = explode('?', $url[1])}
     <title>
-        {if="$url[1] === 'categoria'"}Categoria
-        {elseif="$url[1] === ''"}Loja
-        {elseif="$url[1] === 'produto'"}Produto
-        {elseif="$url[1] === 'carrinho'"}Carrinho
-        {elseif="$url[1] === 'login'"}Entrar
-        {elseif="$url[1] === 'forgot'"}Recuperar Senha
-        {elseif="$url[1] === 'perfil'"}Minha Conta
+        {if="$dir[0] === 'categoria'"}Categoria
+        {elseif="$dir[0] === ''"}Loja
+        {elseif="$dir[0] === 'produto'"}Produto
+        {elseif="$dir[0] === 'carrinho'"}Carrinho
+        {elseif="$dir[0] === 'login'"}Entrar
+        {elseif="$dir[0] === 'forgot'"}Recuperar Senha
+        {elseif="$dir[0] === 'perfil'"}Minha Conta
+        {elseif="$dir[0] === 'finalizar'"}Finalizar Compra
         {/if} - {function="getenv('COMPANY_NAME')"}</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=2">
     <link rel="icon" type="image/png" href="/res/site/images/icons/favicon.png" />
     <link rel="stylesheet" type="text/css" href="/res/site/vendor/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/res/site/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
