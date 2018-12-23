@@ -10,7 +10,7 @@ class User extends Model {
     const SESSION = 'User';
     const SECRET = 'developSecretKey';
     const ERROR = 'UserError';
-    const ERROR_REGISTER = 'UserError';
+    const ERROR_REGISTER = 'UserErrorRegister';
 
     /**
      * Efetua o login de um usuário
@@ -30,7 +30,6 @@ class User extends Model {
         if (password_verify($password, $data['despassword']))
         {
             $user = new User();
-            $data['desperson'] = utf8_encode($data['desperson']);
             $user->setData($data);
             $_SESSION[User::SESSION] = $user->getValues();
         } else {
@@ -77,8 +76,11 @@ class User extends Model {
     public function save()
     {
         $sql = new Sql();
+        if ($this->getnrphone() == '') {
+            $this->setnrphone(NULL);
+        }
         $results = $sql->select('CALL sp_users_save(:desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)', array(
-            ':desperson' => utf8_decode($this->getdesperson()),
+            ':desperson' => $this->getdesperson(),
             ':deslogin' => $this->getdeslogin(),
             ':despassword' => User::getPasswordHash($this->getdespassword()),
             ':desemail' => $this->getdesemail(),
@@ -97,8 +99,7 @@ class User extends Model {
         $results = $sql->select('SELECT * FROM tb_users a INNER JOIN tb_persons b USING(idperson) WHERE a.iduser = :iduser', array(
             ':iduser' => $id
         ));
-        $data = $result[0];
-        $data['desperson'] = utf8_encode($data['desperson']);
+        $data = $results[0];
         $this->setData($data);
     }
 
@@ -110,7 +111,7 @@ class User extends Model {
         $sql = new Sql();
         $results = $sql->select('CALL sp_usersupdate_save(:iduser, :desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)', array(
             ':iduser' => $this->getiduser(),
-            ':desperson' => utf8_decode($this->getdesperson()),
+            ':desperson' => $this->getdesperson(),
             ':deslogin' => $this->getdeslogin(),
             ':despassword' => User::getPasswordHash($this->getdespassword()),
             ':desemail' => $this->getdesemail(),
@@ -287,6 +288,44 @@ class User extends Model {
         return \password_hash($password, PASSWORD_DEFAULT, array(
             'cost' => 12
         ));
+    }
+
+    /**
+     * Define um erro de usuário ao tentar cadastrar-se
+     */
+    public static function setErrorRegister($msg)
+    {
+        $_SESSION[User::ERROR_REGISTER] = $msg;
+    }
+    
+    /**
+     * Retorna o erro do usuário ao tentar cadastrar-se
+     */
+    public static function getErrorRegister()
+    {
+        $msg = (isset($_SESSION[User::ERROR_REGISTER]) && $_SESSION[User::ERROR_REGISTER]) ? $_SESSION[User::ERROR_REGISTER] : '';
+        User::clearErrorRegister();
+        return $msg;
+    }
+
+    /**
+     * Limpa o erro do usuário
+     */
+    public static function clearErrorRegister()
+    {
+        $_SESSION[User::ERROR_REGISTER] = NULL;
+    }
+
+    /**
+     * Verifica se um usuário já existe
+     */
+    public static function checkLoginExists($login)
+    {
+        $sql = new Sql();
+        $results = $sql->select('SELECT * FROM tb_users WHERE deslogin = :deslogin', array(
+            ':deslogin' => $login
+        ));
+        return (count($results) > 0);
     }
 
 }

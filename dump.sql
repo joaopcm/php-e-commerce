@@ -123,16 +123,6 @@ CREATE TABLE `tb_categories` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tb_categories`
---
-
-LOCK TABLES `tb_categories` WRITE;
-/*!40000 ALTER TABLE `tb_categories` DISABLE KEYS */;
-INSERT INTO `tb_categories` VALUES (1,'Celulares','2018-12-23 00:33:14'),(2,'Tablets/iPads','2018-12-23 00:33:30');
-/*!40000 ALTER TABLE `tb_categories` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `tb_orders`
 --
 
@@ -212,7 +202,7 @@ CREATE TABLE `tb_persons` (
 
 LOCK TABLES `tb_persons` WRITE;
 /*!40000 ALTER TABLE `tb_persons` DISABLE KEYS */;
-INSERT INTO `tb_persons` VALUES (1,'João Melo','joao.pedro6532@gmail.com',11963005537,'2018-12-22 22:24:47');
+INSERT INTO `tb_persons` VALUES (1,'Joao Pedro da Cruz Melo','joao.pedro6532@gmail.com',11963005537,'2018-12-22 22:24:47');
 /*!40000 ALTER TABLE `tb_persons` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -240,16 +230,6 @@ CREATE TABLE `tb_products` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tb_products`
---
-
-LOCK TABLES `tb_products` WRITE;
-/*!40000 ALTER TABLE `tb_products` DISABLE KEYS */;
-INSERT INTO `tb_products` VALUES (1,'iPad mini 4 Wi-Fi 128 GB - Dourado',3299.00,15.00,25.00,0.75,0.60,'Pequena descriÃ§Ã£o','DescriÃ§Ã£o avanÃ§ada','ipad-mini-4-wi-fi-128-gb-dourado','2018-12-22 22:58:10'),(2,'Smartphone Motorola Moto G5 Plus',1135.23,15.20,7.40,0.70,0.16,'','','smartphone-motorola-moto-g5-plus','2018-12-22 23:08:55'),(3,'Smartphone Moto Z Play',1887.78,14.10,0.90,1.16,0.13,'','','smartphone-moto-z-play','2018-12-22 23:08:55'),(4,'Smartphone Samsung Galaxy J5 Pro',1299.00,14.60,7.10,0.80,0.16,'','','smartphone-samsung-galaxy-j5','2018-12-22 23:08:55'),(5,'Smartphone Samsung Galaxy J7 Prime',1149.00,15.10,7.50,0.80,0.16,'','','smartphone-samsung-galaxy-j7','2018-12-22 23:08:55'),(6,'Smartphone Samsung Galaxy J3 Dual',679.90,14.20,7.10,0.70,0.14,'','','smartphone-samsung-galaxy-j3','2018-12-22 23:08:55');
-/*!40000 ALTER TABLE `tb_products` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `tb_productscategories`
 --
 
@@ -265,16 +245,6 @@ CREATE TABLE `tb_productscategories` (
   CONSTRAINT `fk_productscategories_products` FOREIGN KEY (`idproduct`) REFERENCES `tb_products` (`idproduct`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tb_productscategories`
---
-
-LOCK TABLES `tb_productscategories` WRITE;
-/*!40000 ALTER TABLE `tb_productscategories` DISABLE KEYS */;
-INSERT INTO `tb_productscategories` VALUES (2,1),(1,2),(1,3),(1,4),(1,5),(1,6);
-/*!40000 ALTER TABLE `tb_productscategories` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `tb_users`
@@ -302,7 +272,7 @@ CREATE TABLE `tb_users` (
 
 LOCK TABLES `tb_users` WRITE;
 /*!40000 ALTER TABLE `tb_users` DISABLE KEYS */;
-INSERT INTO `tb_users` VALUES (1,1,'joao.melo','$2y$12$r1x0vYmu6TU6ooQt4eLUn.0cnWnMigzcYK5qcpVDpP9P9csuiO8ka',1,'2018-12-22 22:24:47');
+INSERT INTO `tb_users` VALUES (1,1,'joao.melo','$2y$12$keG3p1XkKXf2fALZ7pcCb.d3C7waLzzrH5v8j4h55exkCcKRzBvgS',1,'2018-12-22 22:24:47');
 /*!40000 ALTER TABLE `tb_users` ENABLE KEYS */;
 UNLOCK TABLES;
 

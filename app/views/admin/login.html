@@ -42,6 +42,13 @@
         <input type="password" class="form-control" placeholder="Senha" name="password">
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
+      {if="$error != ''"}
+      <div class="form-group">
+        <div class="alert alert-danger rounded-0" role="alert">
+          <strong>Oops!</strong> {$error}
+        </div>
+      </div>
+      {/if}
       <div class="row">
         <div class="col-xs-8">
           <div class="checkbox icheck">

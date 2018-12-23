@@ -32,14 +32,20 @@ $app->get('/login', function() {
         'header' => false,
         'footer' => false
     ));
-    $page->setTpl('login');
+    $page->setTpl('login', array(
+        'error' => User::getError()
+    ));
 });
 
 /**
  * Rota de login - POST
  */
 $app->post('/login', function() {
-    User::login($_POST['username'], $_POST['password']);
+    try {
+        User::login($_POST['username'], $_POST['password']);
+    } catch(Exception $e) {
+        User::setError($e->getMessage());
+    }
     header('Location: /admin');
     exit;
 });
