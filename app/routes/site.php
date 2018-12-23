@@ -172,8 +172,10 @@ $app->post('/login', function() {
 /**
  * Rota de logout - GET
  */
-$app->get('/logout', function() {
+$app->get("/logout", function(){
     User::logout();
+    Cart::removeFromSession();
+    session_regenerate_id();
     header('Location: /login');
     exit;
 });
@@ -216,4 +218,57 @@ $app->post('/registrar', function() {
     User::login($_POST['email'], $_POST['password']);
     header('Location: /finalizar');
     exit;
+});
+
+/**
+ * Página de recuperação de senha - GET
+ */
+$app->get('/forgot', function() {
+    $page = new Page();
+    $page->setTpl('forgot');
+});
+
+/**
+ * Rota de recuperação de senha - POST
+ */
+$app->post('/forgot', function() {
+    $user = User::getForgot($_POST['email'], false);
+    header('Location: /forgot/sent');
+    exit;
+});
+
+/**
+ * Página de confirmação de envio para recuperação de senha - GET
+ */
+$app->get('/forgot/sent', function() {
+    $page = new Page();
+    $page->setTpl('forgot-sent');
+});
+
+/**
+ * Página de resetar a senha - GET
+ */
+$app->get('/forgot/reset', function() {
+    $user = User::validForgotDecrypt($_GET['code']);
+    $page = new Page();
+    $page->setTpl('forgot-reset', array(
+        'name' => $user['desperson'],
+        'code' => $_GET['code']
+    ));
+});
+
+/**
+ * Rota de redefinição de senha - POST
+ */
+$app->post('/forgot/reset', function() {
+    $forgot = User::validForgotDecrypt($_POST['code']);
+    User::setForgotUsed($forgot['idrecovery']);
+    $user = new User();
+    $user->get((int)$forgot['iduser']);
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT, [
+        'cost' => 12
+    ]);
+    $user->setPassword($password);
+    $page = new Page();
+    $page->setTpl('forgot-reset-success');
 });

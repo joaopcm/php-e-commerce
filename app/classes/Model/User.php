@@ -161,7 +161,7 @@ class User extends Model {
                 if ($inadmin === true) {
                     $link = BASE_URL . "admin/forgot/reset?code=$result";
                 } else {
-                    $link = BASE_URL . "admin/forgot/reset?code=$result";
+                    $link = BASE_URL . "forgot/reset?code=$result";
                 } 
                 $mailer = new Mailer($data['desemail'], $data['desperson'], 'Redefinir senha da ' . COMPANY_NAME, 'forgot', array(
                     'name' => $data['desperson'],

@@ -9,6 +9,7 @@
         {elseif="$url[1] === 'produto'"}Produto
         {elseif="$url[1] === 'carrinho'"}Carrinho
         {elseif="$url[1] === 'login'"}Entrar
+        {elseif="$url[1] === 'forgot'"}Recuperar Senha
         {/if} - {function="getenv('COMPANY_NAME')"}</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -83,7 +84,7 @@
                     <div class="menu-desktop">
                         <ul class="main-menu">
                             <li class="{if="$url[1] === ''"}active-menu{/if}">
-                                <a href="/">Início</a>
+                                <a href="/">Loja</a>
                                 <!-- <ul class="sub-menu">
                                     <li><a href="index.html">Homepage 1</a></li>
                                     <li><a href="home-02.html">Homepage 2</a></li>

@@ -2,7 +2,7 @@
 <div class="container">
 	<div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg m-t-80">
 		<a href="/" class="stext-109 cl8 hov-cl1 trans-04">
-			Início
+			Loja
 			<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
 		</a>
 		<span class="stext-109 cl4">
@@ -93,10 +93,9 @@
 								Subtotal:
 							</span>
 						</div>
-
 						<div class="size-209">
 							<span class="mtext-110 cl2">
-								R$ {if="$cart.vlsubtotal != ''"} {function="formatPrice($cart.vlsubtotal)"} {else} 0,00 {/if}
+								R$ {function="formatPrice($cart.vlsubtotal)"}
 							</span>
 						</div>
 					</div>
@@ -149,7 +148,7 @@
 						</div>
 						<div class="size-209 p-t-1">
 							<span class="mtext-110 cl2">
-								R$ {if="$cart.vlfreight != ''"} {function="formatPrice($cart.vlfreight)"} {else} 0,00{/if}
+								R$ {function="formatPrice($cart.vlfreight)"}
 							</span>
 						</div>
 						<div class="size-208">

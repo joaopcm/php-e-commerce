@@ -273,6 +273,13 @@ class Cart extends Model {
         $this->setvltotal($totals['vlprice'] + $this->getvlfreight());
     }
 
+    /**
+     * Remove dados do carrinho ao fazer o logout
+     */
+    public static function removeFromSession(){
+        $_SESSION[Cart::SESSION] = NULL;
+    }
+
 }
 
 ?>
