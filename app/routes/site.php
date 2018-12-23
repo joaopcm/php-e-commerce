@@ -201,7 +201,7 @@ $app->post('/registrar', function() {
         exit;
     }
     if (User::checkLoginExists($_POST['email'])) {
-        User::setErrorRegister('Este endereço de e-mail já está sendo usado.');
+        User::setErrorRegister('Este endereço de e-mail já está cadastrado.');
         header('Location: /login');
         exit;
     }
@@ -271,4 +271,49 @@ $app->post('/forgot/reset', function() {
     $user->setPassword($password);
     $page = new Page();
     $page->setTpl('forgot-reset-success');
+});
+
+/**
+ * Minha conta - GET
+ */
+$app->get('/perfil', function() {
+    User::verifyLogin(false);
+    $user = User::getFromSession();
+    $page = new Page();
+    $page->setTpl('profile', array(
+        'user' => $user->getValues(),
+        'profileMsg' => User::getSuccess(),
+        'profileError' => User::getError()
+    ));
+});
+
+/**
+ * Salva a edição de um usuário - POST
+ */
+$app->post('/perfil', function() {
+    User::verifyLogin(false);
+    if (!isset($_POST['desperson']) || $_POST['desperson'] === '') {
+        User::setError('Preencha o seu nome.');
+        header('Location: /perfil');
+        exit;
+    }
+    if (!isset($_POST['desemail']) || $_POST['desemail'] === '') {
+        User::setError('Preencha o seu e-mail.');
+        header('Location: /perfil');
+        exit;
+    }
+    $user = User::getFromSession();
+    if ($_POST['desemail'] !== $user->getdesemail()) {
+        if (User::checkLoginExists($_POST['desemail'])) {
+            User::setError('Este endereço de e-mail já está cadastrado.');
+        }
+    }
+    $_POST['idadmin'] = $user->getinadmin();
+    $_POST['despassword'] = $user->getdespassword();
+    $_POST['deslogin'] = $_POST['desemail'];
+    $user->setData($_POST);
+    $user->update();
+    User::setSuccess('Dados alterados com sucesso!');
+    header('Location: /perfil');
+    exit;
 });

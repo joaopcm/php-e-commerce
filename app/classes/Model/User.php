@@ -11,6 +11,7 @@ class User extends Model {
     const SECRET = 'developSecretKey';
     const ERROR = 'UserError';
     const ERROR_REGISTER = 'UserErrorRegister';
+    const SUCCESS = 'UserSuccess';
 
     /**
      * Efetua o login de um usuário
@@ -326,6 +327,32 @@ class User extends Model {
             ':deslogin' => $login
         ));
         return (count($results) > 0);
+    }
+
+    /**
+     * Define uma mensagem
+     */
+    public static function setSuccess($msg)
+    {
+        $_SESSION[User::SUCCESS] = $msg;
+    }
+    
+    /**
+     * Retorna uma mensagem
+     */
+    public static function getSuccess()
+    {
+        $msg = (isset($_SESSION[User::SUCCESS]) && $_SESSION[User::SUCCESS]) ? $_SESSION[User::SUCCESS] : '';
+        User::clearSuccess();
+        return $msg;
+    }
+
+    /**
+     * Limpa uma mensagem
+     */
+    public static function clearSuccess()
+    {
+        $_SESSION[User::SUCCESS] = NULL;
     }
 
 }
