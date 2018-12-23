@@ -3,6 +3,7 @@
 use \Loja\Model\PageAdmin;
 use \Loja\Model\User;
 use \Loja\Model\Category;
+use \Loja\Model\Product;
 
 /**
  * Página de categorias - GET
@@ -46,6 +47,49 @@ $app->get('/categorias/:idcategory/excluir', function($idcategory) {
     $category->get((int)$idcategory);
     $category->delete();
     header('Location: /admin/categorias');
+    exit;
+});
+
+/**
+ * Página de relação entre caregorias e produtos - GET
+ */
+$app->get('/categorias/:idcategory/produtos', function($idcategory) {
+    User::verifyLogin();
+    $page = new PageAdmin();
+    $category = new Category();
+    $category->get((int)$idcategory);
+    $page->setTpl('categories-products', array(
+        'category' => $category->getValues(),
+        'productsRelated' => $category->getProducts(),
+        'productsNotRelated' => $category->getProducts(false)
+    ));
+});
+
+/**
+ * Rota que adiciona um produto dentro de uma categoria - GET
+ */
+$app->get('/categorias/:idcategory/produtos/:idproduct/adicionar', function($idcategory, $idproduct) {
+    User::verifyLogin();
+    $category = new Category();
+    $category->get((int)$idcategory);
+    $product = new Product();
+    $product->get((int)$idproduct);
+    $category->addProduct($product);
+    header("Location: /admin/categorias/$idcategory/produtos");
+    exit;
+});
+
+/**
+ * Rota que remove um produto dentro de uma categoria - GET
+ */
+$app->get('/categorias/:idcategory/produtos/:idproduct/remover', function($idcategory, $idproduct) {
+    User::verifyLogin();
+    $category = new Category();
+    $category->get((int)$idcategory);
+    $product = new Product();
+    $product->get((int)$idproduct);
+    $category->removeProduct($product);
+    header("Location: /admin/categorias/$idcategory/produtos");
     exit;
 });
 
