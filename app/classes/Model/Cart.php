@@ -91,6 +91,55 @@ class Cart extends Model {
         $_SESSION[Cart::SESSION] = $this->getValues();
     }
 
+    /**
+     * Adiciona um produto ao carrinho
+     */
+    public function addProduct(Product $product)
+    {
+        $sql = new Sql();
+        $sql->select('INSERT INTO tb_cartsproducts (idcart, idproduct) VALUES (:idcart, :idproduct)', array(
+            ':idcart' => $this->getidcart(),
+            ':idproduct' => $product->getidproduct()
+        ));
+    }
+
+    /**
+     * Remove um ou mais produto(s) do carrinho
+     */
+    public function removeProduct(Product $product, $all = false)
+    {
+        $sql = new Sql();
+        if ($all === true) {
+            $sql->select('UPDATE tb_cartsproducts SET dtremoved = NOW() WHERE idcart = :idcart AND idproduct = :idproduct AND dtremoved IS NULL', array(
+                ':idcart' => $this->getidcart(),
+                ':idproduct' => $product->getidproduct()
+            ));
+        } else {
+            $sql->select('UPDATE tb_cartsproducts SET dtremoved = NOW() WHERE idcart = :idcart AND idproduct = :idproduct AND dtremoved IS NULL LIMIT 1', array(
+                ':idcart' => $this->getidcart(),
+                ':idproduct' => $product->getidproduct()
+            ));
+        }
+    }
+
+    /**
+     * 
+     */
+    public function getProducts()
+    {
+        $sql = new Sql();
+        return Product::checkList($sql->select('SELECT b.idproduct, b.desproduct, b.vlprice, b.vlwidth, b.vlheight, b.vllength, b.vlweight, b.desurl, COUNT(*) AS nrqtd, SUM(b.vlprice) AS vltotal
+                                                FROM tb_cartsproducts a
+                                                INNER JOIN tb_products b
+                                                USING(idproduct)
+                                                WHERE a.idcart = :idcart
+                                                AND a.dtremoved IS NULL
+                                                GROUP BY b.idproduct, b.desproduct, b.vlprice, b.vlwidth, b.vlheight, b.vllength, b.vlweight, b.desurl
+                                                ORDER BY b.desproduct', array(
+                                                    ':idcart' => $this->getidcart()
+                                                )));
+    }
+
 }
 
 ?>
