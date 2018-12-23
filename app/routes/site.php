@@ -4,6 +4,8 @@ use \Loja\Model\Page;
 use \Loja\Model\Category;
 use \Loja\Model\Product;
 use \Loja\Model\Cart;
+use \Loja\Model\Address;
+use \Loja\Model\User;
 
 /**
  * Página principal da loja - GET
@@ -111,5 +113,61 @@ $app->post('/carrinho/frete', function() {
     $cart = Cart::getFromSession();
     $cart->setFreight($_POST['postcode']);
     header('Location: /carrinho');
+    exit;
+});
+
+/**
+ * Página de finalizar compra - GET
+ */
+$app->get('/finalizar', function() {
+    User::verifyLogin(false);
+    $page = new Page();
+    $cart = Cart::getFromSession();
+    $address = new Address();
+    $page->setTpl('checkout', array(
+        'cart' => $cart->getValues(),
+        'address' => $address->getValues()
+    ));
+});
+
+/**
+ * Página de login - GET
+ */
+$app->get('/login', function() {
+    if (
+        isset($_SESSION[User::SESSION])
+        ||
+        $_SESSION[User::SESSION]
+        ||
+        (int)$_SESSION[User::SESSION]['iduser'] > 0
+    ) {
+        header('Location: /');
+        exit;
+    }
+    $page = new Page();
+    $page->setTpl('login', array(
+        'error' => User::getError()
+    ));
+});
+
+/**
+ * Rota de login - POST
+ */
+$app->post('/login', function() {
+    try {
+        User::login($_POST['username'], $_POST['password']);
+    } catch(Exception $e) {
+        User::setError($e->getMessage());
+    }
+    header('Location: /finalizar');
+    exit;
+});
+
+/**
+ * Rota de logout - GET
+ */
+$app->get('/logout', function() {
+    User::logout();
+    header('Location: /login');
     exit;
 });

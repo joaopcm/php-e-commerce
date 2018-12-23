@@ -8,6 +8,7 @@
         {elseif="$url[1] === ''"}Loja
         {elseif="$url[1] === 'produto'"}Produto
         {elseif="$url[1] === 'carrinho'"}Carrinho
+        {elseif="$url[1] === 'login'"}Entrar
         {/if} - {function="getenv('COMPANY_NAME')"}</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -46,17 +47,26 @@
                             Help & FAQs
                         </a> -->
 
-                        <a href="#" class="flex-c-m trans-04 p-lr-25">
+                        {if="checkLogin(false)"}
+                        <a href="javascript:;;" class="flex-c-m trans-04 p-lr-25">
+                            Olá, {function="getUserName()"}
+                        </a>
+                        <a href="/perfil" class="flex-c-m trans-04 p-lr-25">
                             Minha conta
                         </a>
-
-                        <a href="#" class="flex-c-m trans-04 p-lr-25">
-                            PT-BR
+                        <a href="/logout" class="flex-c-m trans-04 p-lr-25">
+                            Sair
                         </a>
-
-                        <a href="#" class="flex-c-m trans-04 p-lr-25">
-                            REAL
+                        {else}
+                        <a href="/login" class="flex-c-m trans-04 p-lr-25">
+                            Entrar
                         </a>
+                        {/if}
+                        {if="$_SESSION['User']['inadmin'] === '1'"}
+                        <a href="/admin" class="flex-c-m trans-04 p-lr-25">
+                            Gerenciar
+                        </a>
+                        {/if}
                     </div>
                 </div>
             </div>

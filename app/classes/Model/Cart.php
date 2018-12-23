@@ -181,7 +181,7 @@ class Cart extends Model {
             $qs = http_build_query(array(
                 'nCdEmpresa' => COMPANY_NAME,
                 'sDsSenha' => '',
-                'nCdServico' => '41106',
+                'nCdServico' => '40010',
                 'sCepOrigem' => '03917050',
                 'sCepDestino' => $nrzipcode,
                 'nVlPeso' => $totals['vlheight'],
@@ -233,7 +233,7 @@ class Cart extends Model {
      */
     public static function getMsgError()
     {
-        $msg = (isset($_SESSION[Cart::SESSION_ERROR])) ? $_SESSION[Cart::SESSION_ERROR] : NULL;
+        $msg = (isset($_SESSION[Cart::SESSION_ERROR])) ? $_SESSION[Cart::SESSION_ERROR] : '';
         Cart::clearMsgError();
         return $msg;
     }

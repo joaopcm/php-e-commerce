@@ -16,6 +16,18 @@ $app->get('/', function () {
  * Página de login - GET
  */
 $app->get('/login', function() {
+    if (
+        isset($_SESSION[User::SESSION])
+        ||
+        $_SESSION[User::SESSION]
+        ||
+        (int)$_SESSION[User::SESSION]['iduser'] > 0
+        ||
+        (bool)$_SESSION[User::SESSION]['inadmin'] === true
+    ) {
+        header('Location: /admin');
+        exit;
+    }
     $page = new PageAdmin(array(
         'header' => false,
         'footer' => false
