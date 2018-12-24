@@ -59,14 +59,14 @@ class Order extends Model {
     {
         $sql = new Sql();
         return $sql->select('SELECT * 
-                                    FROM tb_orders a 
-                                    INNER JOIN tb_ordersstatus b USING(idstatus) 
-                                    INNER JOIN tb_carts c USING(idcart)
-                                    INNER JOIN tb_users d ON d.iduser = a.iduser
-                                    INNER JOIN tb_addresses e USING(idaddress)
-                                    INNER JOIN tb_persons f ON f.idperson = d.idperson
-                                    ORDER BY a.dtregister DESC
-                                ');
+                                FROM tb_orders a 
+                                INNER JOIN tb_ordersstatus b USING(idstatus) 
+                                INNER JOIN tb_carts c USING(idcart)
+                                INNER JOIN tb_users d ON d.iduser = a.iduser
+                                INNER JOIN tb_addresses e USING(idaddress)
+                                INNER JOIN tb_persons f ON f.idperson = d.idperson
+                                ORDER BY a.dtregister DESC
+                            ');
     }
 
     /**
@@ -140,6 +140,63 @@ class Order extends Model {
     public static function clearError()
     {
         $_SESSION[Order::ERROR] = NULL;
+    }
+
+    /**
+     * Organiza a paginação
+     */
+    public static function getPage(int $page = 1, int $itemsPerPage = 25)
+    {
+        $start = ($page - 1) * $itemsPerPage;
+        $sql = new Sql();
+        $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS *
+                                    FROM tb_orders a 
+                                    INNER JOIN tb_ordersstatus b USING(idstatus) 
+                                    INNER JOIN tb_carts c USING(idcart)
+                                    INNER JOIN tb_users d ON d.iduser = a.iduser
+                                    INNER JOIN tb_addresses e USING(idaddress)
+                                    INNER JOIN tb_persons f ON f.idperson = d.idperson
+                                    ORDER BY a.dtregister DESC LIMIT $start, $itemsPerPage");
+        $resultTotal = $sql->select('SELECT FOUND_ROWS() AS nrtotal;');
+        return array(
+            'data' => $results,
+            'total' => (int)$resultTotal[0]['nrtotal'],
+            'pages' => ceil($resultTotal[0]['nrtotal'] / $itemsPerPage)
+        );
+    }
+
+    /**
+     * Organiza a paginação e busca
+     */
+    public static function getPageSearch($search, int $page = 1, int $itemsPerPage = 25)
+    {
+        $start = ($page - 1) * $itemsPerPage;
+        $sql = new Sql();
+        $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS *
+                                    FROM tb_orders a
+                                    INNER JOIN tb_ordersstatus b USING(idstatus) 
+                                    INNER JOIN tb_carts c USING(idcart)
+                                    INNER JOIN tb_users d ON d.iduser = a.iduser
+                                    INNER JOIN tb_addresses e USING(idaddress)
+                                    INNER JOIN tb_persons f ON f.idperson = d.idperson
+                                    WHERE a.idorder = :id
+                                    OR f.desperson LIKE :search
+                                    OR e.desaddress LIKE :search
+                                    OR e.desdistrict LIKE :search
+                                    OR e.descity LIKE :search
+                                    OR e.desstate LIKE :search
+                                    OR e.descountry LIKE :search
+                                    ORDER BY a.dtregister DESC
+                                    LIMIT $start, $itemsPerPage", array(
+                                        ':search' => '%' . $search . '%',
+                                        ':id' => $search
+                                    ));
+        $resultTotal = $sql->select('SELECT FOUND_ROWS() AS nrtotal;');
+        return array(
+            'data' => $results,
+            'total' => (int)$resultTotal[0]['nrtotal'],
+            'pages' => ceil($resultTotal[0]['nrtotal'] / $itemsPerPage)
+        );
     }
 
 }

@@ -10,9 +10,28 @@ use \Loja\Model\OrderStatus;
  */
 $app->get('/pedidos', function() {
     User::verifyLogin();
+    $search = (isset($_GET['search'])) ? $_GET['search'] : '';
+    $page = (isset($_GET['page'])) ? (int)$_GET['page'] : 1;
+    if ($search != '') {
+        $pagination = Order::getPageSearch($search, $page);
+    } else {
+        $pagination = Order::getPage($page);
+    }
+    $pages = array();
+    for ($i = 0; $i < $pagination['pages']; $i++) { 
+        array_push($pages, array(
+            'href' => '/admin/pedidos?' . http_build_query(array(
+                'page' => $i + 1,
+                'search' => $search
+            )),
+            'text' => $i + 1
+        ));    
+    }
     $page = new PageAdmin();
     $page->setTpl('orders', array(
-        'orders' => Order::listAll()
+        'orders' => $pagination['data'],
+        'search' => $search,
+        'pages' => $pages
     ));
 });
 
