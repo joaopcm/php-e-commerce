@@ -56,3 +56,11 @@ function getCartProducts()
     $cart = Cart::getFromSession();
     return $cart->getProducts();
 }
+
+/**
+ * Formata uma data
+ */
+function formatDate($date)
+{
+    return date('d/m/Y', strtotime($date));
+};
