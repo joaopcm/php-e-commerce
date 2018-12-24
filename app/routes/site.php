@@ -6,6 +6,8 @@ use \Loja\Model\Product;
 use \Loja\Model\Cart;
 use \Loja\Model\Address;
 use \Loja\Model\User;
+use \Loja\Model\Order;
+use \Loja\Model\OrderStatus;
 
 /**
  * Página principal da loja - GET
@@ -157,38 +159,48 @@ $app->post('/finalizar', function() {
         header('Location: /finalizar');
         exit;
     }
-    if (!isset($_POST['desaddress']) || $_POST['desaddress'] === '') {
-        Address::setMsgError('Informe o endereço.');
-        header('Location: /finalizar');
-        exit;
-    }
-    if (!isset($_POST['desdistrict']) || $_POST['desdistrict'] === '') {
-        Address::setMsgError('Informe o bairro.');
-        header('Location: /finalizar');
-        exit;
-    }
-    if (!isset($_POST['descity']) || $_POST['descity'] === '') {
-        Address::setMsgError('Informe a cidade.');
-        header('Location: /finalizar');
-        exit;
-    }
-    if (!isset($_POST['desstate']) || $_POST['desstate'] === '') {
-        Address::setMsgError('Informe o estado.');
-        header('Location: /finalizar');
-        exit;
-    }
-    if (!isset($_POST['descountry']) || $_POST['descountry'] === '') {
-        Address::setMsgError('Informe o país.');
-        header('Location: /finalizar');
-        exit;
-    }
-    User::verifyLogin(false);
-    $address = new Address();
-    $user = User::getFromSession();
-    $_POST['idperson'] = $user->getidperson();
-    $address->setData($_POST);
-    $address->save();
-    header('Location: /pagamento');
+	if (!isset($_POST['desaddress']) || $_POST['desaddress'] === '') {
+		Address::setMsgError("Informe o endereço.");
+		header('Location: /finalizar');
+		exit;
+	}
+	if (!isset($_POST['desdistrict']) || $_POST['desdistrict'] === '') {
+		Address::setMsgError("Informe o bairro.");
+		header('Location: /finalizar');
+		exit;
+	}
+	if (!isset($_POST['descity']) || $_POST['descity'] === '') {
+		Address::setMsgError("Informe a cidade.");
+		header('Location: /finalizar');
+		exit;
+	}
+	if (!isset($_POST['desstate']) || $_POST['desstate'] === '') {
+		Address::setMsgError("Informe o estado.");
+		header('Location: /finalizar');
+		exit;
+	}
+	if (!isset($_POST['descountry']) || $_POST['descountry'] === '') {
+		Address::setMsgError("Informe o país.");
+		header('Location: /finalizar');
+		exit;
+	}
+	$user = User::getFromSession();
+	$address = new Address();
+	$_POST['idperson'] = $user->getidperson();	
+	$address->setData($_POST);
+	$address->save();
+	$cart = Cart::getFromSession();
+	$cart->getCalcTotal();
+	$order = new Order();	
+	$order->setData(array(
+		'idcart' => $cart->getidcart(),
+		'idaddress' => $address->getidaddress(),
+		'iduser' => $user->getiduser(),
+		'idstatus' => OrderStatus::EM_ABERTO,
+		'vltotal' => $cart->getvltotal()
+	));
+	$order->save();
+    header('Location: /pagamento/' . $order->getidorder());
     exit;
 });
 
@@ -378,4 +390,85 @@ $app->post('/perfil', function() {
     User::setSuccess('Dados alterados com sucesso!');
     header('Location: /perfil');
     exit;
+});
+
+/**
+ * Página de pagamento - GET
+ */
+$app->get('/pagamento/:idorder', function($idorder) {
+    User::verifyLogin(false);
+    $order = new Order();
+    $order->get((int)$idorder);
+    $page = new Page();
+    $page->setTpl('payment', array(
+        'order' => $order->getValues()
+    ));
+});
+
+/**
+ * Página de geração de boleto - GET
+ */
+$app->get('/boleto/:idorder', function($idorder) {
+
+    User::verifyLogin(false);
+    $order = New Order();
+    $order->get((int)$idorder);
+
+    // DADOS DO BOLETO PARA O SEU CLIENTE
+    $dias_de_prazo_para_pagamento = 10;
+    $taxa_boleto = 5.00;
+    $data_venc = date("d/m/Y", time() + ($dias_de_prazo_para_pagamento * 86400));  // Prazo de X dias OU informe data: "13/04/2006"; 
+    $valor_cobrado = formatPrice($order->getvltotal()); // Valor - REGRA: Sem pontos na milhar e tanto faz com "." ou "," ou com 1 ou 2 ou sem casa decimal
+    $valor_cobrado = str_replace(",", ".",$valor_cobrado);
+    $valor_boleto=number_format($valor_cobrado+$taxa_boleto, 2, ',', '');
+
+    $dadosboleto["nosso_numero"] = $order->getidorder();  // Nosso numero - REGRA: Máximo de 8 caracteres!
+    $dadosboleto["numero_documento"] = $order->getidorder();	// Num do pedido ou nosso numero
+    $dadosboleto["data_vencimento"] = $data_venc; // Data de Vencimento do Boleto - REGRA: Formato DD/MM/AAAA
+    $dadosboleto["data_documento"] = date("d/m/Y"); // Data de emissão do Boleto
+    $dadosboleto["data_processamento"] = date("d/m/Y"); // Data de processamento do boleto (opcional)
+    $dadosboleto["valor_boleto"] = $valor_boleto; 	// Valor do Boleto - REGRA: Com vírgula e sempre com duas casas depois da virgula
+
+    // DADOS DO SEU CLIENTE
+    $dadosboleto["sacado"] = $order->getdesperson();
+    $dadosboleto["endereco1"] = $order->getdesaddress() . ' ' . $order->getdesdistrict();
+    $dadosboleto["endereco2"] = $order->getdescity() . ' - ' . $order->getdesstate() . ' - ' . $order->getdescountry() . ' - CEP: ' . $order->getdeszipcode();
+
+    // INFORMACOES PARA O CLIENTE
+    $dadosboleto["demonstrativo1"] = "Pagamento de Compra na " . COMPANY_NAME;
+    $dadosboleto["demonstrativo2"] = "Taxa bancária - R$ 0,00";
+    $dadosboleto["demonstrativo3"] = "";
+    $dadosboleto["instrucoes1"] = "- Sr. Caixa, cobrar multa de 2% após o vencimento";
+    $dadosboleto["instrucoes2"] = "- Receber até 10 dias após o vencimento";
+    $dadosboleto["instrucoes3"] = "- Em caso de dúvidas entre em contato conosco: " . MAIL_ADDRESS;
+    $dadosboleto["instrucoes4"] = "&nbsp; Emitido por " . COMPANY_NAME . " - " . BASE_URL;
+
+    // DADOS OPCIONAIS DE ACORDO COM O BANCO OU CLIENTE
+    $dadosboleto["quantidade"] = "";
+    $dadosboleto["valor_unitario"] = "";
+    $dadosboleto["aceite"] = "";		
+    $dadosboleto["especie"] = "R$";
+    $dadosboleto["especie_doc"] = "";
+
+    // ---------------------- DADOS FIXOS DE CONFIGURAÇÃO DO SEU BOLETO --------------- //
+
+    // DADOS DA SUA CONTA - ITAÚ
+    $dadosboleto["agencia"] = AGENCY; // Num da agencia, sem digito
+    $dadosboleto["conta"] = ACCOUNT;	// Num da conta, sem digito
+    $dadosboleto["conta_dv"] = ACCOUNT_DIGIT; 	// Digito do Num da conta
+
+    // DADOS PERSONALIZADOS - ITAÚ
+    $dadosboleto["carteira"] = "175";  // Código da Carteira: pode ser 175, 174, 104, 109, 178, ou 157
+
+    // SEUS DADOS
+    $dadosboleto["identificacao"] = COMPANY_NAME;
+    $dadosboleto["cpf_cnpj"] = CNPJ;
+    $dadosboleto["endereco"] = ENDERECO;
+    $dadosboleto["cidade_uf"] = CIDADE . ' - ' . UF;
+    $dadosboleto["cedente"] = COMPANY_NAME;
+
+    // NÃO ALTERAR!
+    $path = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'res' . DIRECTORY_SEPARATOR . 'boletophp' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR;
+    require_once $path . 'funcoes_itau.php';
+    require_once $path . 'layout_itau.php';
 });

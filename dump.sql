@@ -30,12 +30,13 @@ CREATE TABLE `tb_addresses` (
   `descity` varchar(32) NOT NULL,
   `desstate` varchar(32) NOT NULL,
   `descountry` varchar(32) NOT NULL,
-  `nrzipcode` int(11) NOT NULL,
+  `deszipcode` char(8) NOT NULL,
+  `desdistrict` varchar(32) NOT NULL,
   `dtregister` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`idaddress`),
   KEY `fk_addresses_persons_idx` (`idperson`),
   CONSTRAINT `fk_addresses_persons` FOREIGN KEY (`idperson`) REFERENCES `tb_persons` (`idperson`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,6 +45,7 @@ CREATE TABLE `tb_addresses` (
 
 LOCK TABLES `tb_addresses` WRITE;
 /*!40000 ALTER TABLE `tb_addresses` DISABLE KEYS */;
+INSERT INTO `tb_addresses` VALUES (1,1,'Rua Caetano Pero Neto',NULL,'SÃ£o Paulo','SP','Brasil','03917050','Jardim Porteira Grande','2018-12-23 23:46:46'),(2,1,'Rua Caetano Pero Neto',NULL,'SÃ£o Paulo','SP','Brasil','03917050','Jardim Porteira Grande','2018-12-24 16:13:56'),(3,1,'Rua Caetano Pero Neto',NULL,'SÃ£o Paulo','SP','Brasil','03917050','Jardim Porteira Grande','2018-12-24 16:14:09'),(4,1,'Rua Caetano Pero Neto',NULL,'SÃ£o Paulo','SP','Brasil','03917050','Jardim Porteira Grande','2018-12-24 16:14:19'),(5,1,'Rua Caetano Pero Neto',NULL,'SÃ£o Paulo','SP','Brasil','03917050','Jardim Porteira Grande','2018-12-24 16:19:31'),(6,1,'Rua Caetano Pero Neto',NULL,'SÃ£o Paulo','SP','Brasil','03917050','Jardim Porteira Grande','2018-12-24 16:19:54'),(7,1,'Rua Caetano Pero Neto',NULL,'SÃ£o Paulo','SP','Brasil','03917050','Jardim Porteira Grande','2018-12-24 16:20:52'),(8,1,'Rua Caetano Pero Neto',NULL,'SÃ£o Paulo','SP','Brasil','03917050','Jardim Porteira Grande','2018-12-24 16:23:46'),(9,1,'Rua Caetano Pero Neto',NULL,'SÃ£o Paulo','SP','Brasil','03917050','Jardim Porteira Grande','2018-12-24 16:25:06'),(10,1,'Rua Caetano Pero Neto',NULL,'SÃ£o Paulo','SP','Brasil','03917050','Jardim Porteira Grande','2018-12-24 16:36:21'),(11,1,'Rua Caetano Pero Neto',NULL,'SÃ£o Paulo','SP','Brasil','03917050','Jardim Porteira Grande','2018-12-24 16:39:14'),(12,1,'Rua Caetano Pero Neto',NULL,'SÃ£o Paulo','SP','Brasil','03917050','Jardim Porteira Grande','2018-12-24 16:59:23'),(13,1,'Rua Caetano Pero Neto',NULL,'SÃ£o Paulo','SP','Brasil','03917050','Jardim Porteira Grande','2018-12-24 17:02:40');
 /*!40000 ALTER TABLE `tb_addresses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -65,7 +67,7 @@ CREATE TABLE `tb_carts` (
   PRIMARY KEY (`idcart`),
   KEY `FK_carts_users_idx` (`iduser`),
   CONSTRAINT `fk_carts_users` FOREIGN KEY (`iduser`) REFERENCES `tb_users` (`iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -74,6 +76,7 @@ CREATE TABLE `tb_carts` (
 
 LOCK TABLES `tb_carts` WRITE;
 /*!40000 ALTER TABLE `tb_carts` DISABLE KEYS */;
+INSERT INTO `tb_carts` VALUES (1,'d90c14b2f83cfc202c19e458469147b3',1,'03917050',73.71,4,'2018-12-23 23:09:34'),(2,'eae835ba27cf0c54eea1fc8ec8174829',1,'03917050',174.66,4,'2018-12-24 15:56:53');
 /*!40000 ALTER TABLE `tb_carts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -95,7 +98,7 @@ CREATE TABLE `tb_cartsproducts` (
   KEY `FK_cartsproducts_products_idx` (`idproduct`),
   CONSTRAINT `fk_cartsproducts_carts` FOREIGN KEY (`idcart`) REFERENCES `tb_carts` (`idcart`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_cartsproducts_products` FOREIGN KEY (`idproduct`) REFERENCES `tb_products` (`idproduct`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -104,6 +107,7 @@ CREATE TABLE `tb_cartsproducts` (
 
 LOCK TABLES `tb_cartsproducts` WRITE;
 /*!40000 ALTER TABLE `tb_cartsproducts` DISABLE KEYS */;
+INSERT INTO `tb_cartsproducts` VALUES (3,2,12,NULL,'2018-12-24 16:12:54'),(4,2,12,NULL,'2018-12-24 16:12:54');
 /*!40000 ALTER TABLE `tb_cartsproducts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -119,7 +123,7 @@ CREATE TABLE `tb_categories` (
   `descategory` varchar(32) NOT NULL,
   `dtregister` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`idcategory`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -128,7 +132,7 @@ CREATE TABLE `tb_categories` (
 
 LOCK TABLES `tb_categories` WRITE;
 /*!40000 ALTER TABLE `tb_categories` DISABLE KEYS */;
-INSERT INTO `tb_categories` VALUES (3,'Apple','2018-12-23 18:48:44'),(4,'Google','2018-12-23 18:48:47'),(5,'Motorola','2018-12-23 18:48:50'),(6,'Samsung','2018-12-23 18:48:53'),(7,'Xiaomi','2018-12-23 18:48:56'),(8,'Zenfone','2018-12-23 18:49:25');
+INSERT INTO `tb_categories` VALUES (10,'Celulares','2018-12-24 16:02:07');
 /*!40000 ALTER TABLE `tb_categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -144,16 +148,19 @@ CREATE TABLE `tb_orders` (
   `idcart` int(11) NOT NULL,
   `iduser` int(11) NOT NULL,
   `idstatus` int(11) NOT NULL,
+  `idaddress` int(11) NOT NULL,
   `vltotal` decimal(10,2) NOT NULL,
   `dtregister` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`idorder`),
-  KEY `FK_orders_carts_idx` (`idcart`),
   KEY `FK_orders_users_idx` (`iduser`),
   KEY `fk_orders_ordersstatus_idx` (`idstatus`),
+  KEY `fk_orders_carts_idx` (`idcart`),
+  KEY `fk_orders_addresses_idx` (`idaddress`),
+  CONSTRAINT `fk_orders_addresses` FOREIGN KEY (`idaddress`) REFERENCES `tb_addresses` (`idaddress`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_orders_carts` FOREIGN KEY (`idcart`) REFERENCES `tb_carts` (`idcart`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_orders_ordersstatus` FOREIGN KEY (`idstatus`) REFERENCES `tb_ordersstatus` (`idstatus`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_orders_users` FOREIGN KEY (`iduser`) REFERENCES `tb_users` (`iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -162,6 +169,7 @@ CREATE TABLE `tb_orders` (
 
 LOCK TABLES `tb_orders` WRITE;
 /*!40000 ALTER TABLE `tb_orders` DISABLE KEYS */;
+INSERT INTO `tb_orders` VALUES (1,2,1,1,13,3174.66,'2018-12-24 17:02:40');
 /*!40000 ALTER TABLE `tb_orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -177,7 +185,7 @@ CREATE TABLE `tb_ordersstatus` (
   `desstatus` varchar(32) NOT NULL,
   `dtregister` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`idstatus`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -186,6 +194,7 @@ CREATE TABLE `tb_ordersstatus` (
 
 LOCK TABLES `tb_ordersstatus` WRITE;
 /*!40000 ALTER TABLE `tb_ordersstatus` DISABLE KEYS */;
+INSERT INTO `tb_ordersstatus` VALUES (1,'Em Aberto','2018-12-24 00:00:00'),(2,'Aguardando Pagamento','2018-12-24 00:00:00'),(3,'Pago','2018-12-24 00:00:00'),(4,'Entregue','2018-12-24 00:00:00');
 /*!40000 ALTER TABLE `tb_ordersstatus` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -203,7 +212,7 @@ CREATE TABLE `tb_persons` (
   `nrphone` bigint(20) DEFAULT NULL,
   `dtregister` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`idperson`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -236,7 +245,7 @@ CREATE TABLE `tb_products` (
   `desurl` varchar(128) NOT NULL,
   `dtregister` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`idproduct`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -245,7 +254,7 @@ CREATE TABLE `tb_products` (
 
 LOCK TABLES `tb_products` WRITE;
 /*!40000 ALTER TABLE `tb_products` DISABLE KEYS */;
-INSERT INTO `tb_products` VALUES (6,'Smartphone Motorola Moto G5 Plus',1135.23,15.20,7.40,0.70,0.16,'','','smartphone-motorola-moto-g5-plus','2018-12-23 18:48:00'),(7,'Smartphone Moto Z Play',1887.78,14.10,0.90,1.16,0.13,'','','smartphone-moto-z-play','2018-12-23 18:48:00'),(8,'Smartphone Samsung Galaxy J5 Pro',1299.00,14.60,7.10,0.80,0.16,'','','smartphone-samsung-galaxy-j5','2018-12-23 18:48:00'),(9,'Smartphone Samsung Galaxy J7 Prime',1149.00,15.10,7.50,0.80,0.16,'','','smartphone-samsung-galaxy-j7','2018-12-23 18:48:00'),(10,'Smartphone Samsung Galaxy J3 Dual',679.90,14.20,7.10,0.70,0.13,'','','smartphone-samsung-galaxy-j3','2018-12-23 18:48:00');
+INSERT INTO `tb_products` VALUES (12,'Produto de teste',1500.00,6.00,12.00,0.40,0.30,'Pequena descriÃ§Ã£o.','DescriÃ§Ã£o avanÃ§ada.','produto-de-teste','2018-12-24 16:02:51');
 /*!40000 ALTER TABLE `tb_products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -272,7 +281,7 @@ CREATE TABLE `tb_productscategories` (
 
 LOCK TABLES `tb_productscategories` WRITE;
 /*!40000 ALTER TABLE `tb_productscategories` DISABLE KEYS */;
-INSERT INTO `tb_productscategories` VALUES (5,6),(5,7),(6,8),(6,9),(6,10);
+INSERT INTO `tb_productscategories` VALUES (10,12);
 /*!40000 ALTER TABLE `tb_productscategories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -293,7 +302,7 @@ CREATE TABLE `tb_users` (
   PRIMARY KEY (`iduser`),
   KEY `FK_users_persons_idx` (`idperson`),
   CONSTRAINT `fk_users_persons` FOREIGN KEY (`idperson`) REFERENCES `tb_persons` (`idperson`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -302,7 +311,7 @@ CREATE TABLE `tb_users` (
 
 LOCK TABLES `tb_users` WRITE;
 /*!40000 ALTER TABLE `tb_users` DISABLE KEYS */;
-INSERT INTO `tb_users` VALUES (1,1,'joao.melo','$2y$12$WTWcmMpHdAe9/vPa.eqZB.wC.hxsgb0XhWKTRpf5O2szZxoxwgSQi',1,'2018-12-22 22:24:47');
+INSERT INTO `tb_users` VALUES (1,1,'joao.pedro6532@gmail.com','$2y$12$7hgwU9zhBGE8aTyEE1i2EuiAmtGr8Re27Ys4g1mwFSvBAMNkxhFvq',1,'2018-12-22 22:24:47');
 /*!40000 ALTER TABLE `tb_users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -353,7 +362,7 @@ CREATE TABLE `tb_userspasswordsrecoveries` (
   PRIMARY KEY (`idrecovery`),
   KEY `fk_userspasswordsrecoveries_users_idx` (`iduser`),
   CONSTRAINT `fk_userspasswordsrecoveries_users` FOREIGN KEY (`iduser`) REFERENCES `tb_users` (`iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -362,13 +371,67 @@ CREATE TABLE `tb_userspasswordsrecoveries` (
 
 LOCK TABLES `tb_userspasswordsrecoveries` WRITE;
 /*!40000 ALTER TABLE `tb_userspasswordsrecoveries` DISABLE KEYS */;
-INSERT INTO `tb_userspasswordsrecoveries` VALUES (1,1,'172.22.0.1','2018-12-23 19:19:07','2018-12-23 19:18:49');
+INSERT INTO `tb_userspasswordsrecoveries` VALUES (1,1,'172.22.0.1','2018-12-23 19:19:07','2018-12-23 19:18:49'),(2,1,'172.26.0.1','2018-12-24 15:56:34','2018-12-24 15:56:10');
 /*!40000 ALTER TABLE `tb_userspasswordsrecoveries` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
 -- Dumping routines for database 'db_ecommerce'
 --
+/*!50003 DROP PROCEDURE IF EXISTS `sp_addresses_save` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`%` PROCEDURE `sp_addresses_save`(
+pidaddress int(11), 
+pidperson int(11),
+pdesaddress varchar(128),
+pdescomplement varchar(32),
+pdescity varchar(32),
+pdesstate varchar(32),
+pdescountry varchar(32),
+pdeszipcode char(8),
+pdesdistrict varchar(32)
+)
+BEGIN
+
+	IF pidaddress > 0 THEN
+		
+		UPDATE tb_addresses
+        SET
+			idperson = pidperson,
+            desaddress = pdesaddress,
+            descomplement = pdescomplement,
+            descity = pdescity,
+            desstate = pdesstate,
+            descountry = pdescountry,
+            deszipcode = pdeszipcode, 
+            desdistrict = pdesdistrict
+		WHERE idaddress = pidaddress;
+        
+    ELSE
+		
+		INSERT INTO tb_addresses (idperson, desaddress, descomplement, descity, desstate, descountry, deszipcode, desdistrict)
+        VALUES(pidperson, pdesaddress, pdescomplement, pdescity, pdesstate, pdescountry, pdeszipcode, pdesdistrict);
+        
+        SET pidaddress = LAST_INSERT_ID();
+        
+    END IF;
+    
+    SELECT * FROM tb_addresses WHERE idaddress = pidaddress;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `sp_carts_save` */;
 ALTER DATABASE `db_ecommerce` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -459,6 +522,60 @@ DELIMITER ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 ALTER DATABASE `db_ecommerce` CHARACTER SET utf8 COLLATE utf8_general_ci ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_orders_save` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`%` PROCEDURE `sp_orders_save`(
+pidorder INT,
+pidcart int(11),
+piduser int(11),
+pidstatus int(11),
+pidaddress int(11),
+pvltotal decimal(10,2)
+)
+BEGIN
+	
+	IF pidorder > 0 THEN
+		
+		UPDATE tb_orders
+        SET
+			idcart = pidcart,
+            iduser = piduser,
+            idstatus = pidstatus,
+            idaddress = pidaddress,
+            vltotal = pvltotal
+		WHERE idorder = pidorder;
+        
+    ELSE
+    
+		INSERT INTO tb_orders (idcart, iduser, idstatus, idaddress, vltotal)
+        VALUES(pidcart, piduser, pidstatus, pidaddress, pvltotal);
+		
+		SET pidorder = LAST_INSERT_ID();
+        
+    END IF;
+    
+    SELECT * 
+    FROM tb_orders a
+    INNER JOIN tb_ordersstatus b USING(idstatus)
+    INNER JOIN tb_carts c USING(idcart)
+    INNER JOIN tb_users d ON d.iduser = a.iduser
+    INNER JOIN tb_addresses e USING(idaddress)
+    WHERE idorder = pidorder;
+    
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `sp_products_save` */;
 ALTER DATABASE `db_ecommerce` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -678,4 +795,4 @@ ALTER DATABASE `db_ecommerce` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-12-23 17:28:08
+-- Dump completed on 2018-12-24 15:37:30

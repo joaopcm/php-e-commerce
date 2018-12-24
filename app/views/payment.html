@@ -1,0 +1,46 @@
+<!-- breadcrumb -->
+<div class="container">
+    <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg m-t-80">
+        <a href="/" class="stext-109 cl8 hov-cl1 trans-04">
+            Loja
+            <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+        </a>
+        <a href="/carrinho" class="stext-109 cl8 hov-cl1 trans-04">
+            Carrinho
+            <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+        </a>
+        <a href="/finalizar" class="stext-109 cl8 hov-cl1 trans-04">
+            Finalizar Compra
+            <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+        </a>
+        <span class="stext-109 cl4">
+            Pagamento
+        </span>
+    </div>
+</div>
+
+<!-- Shoping Cart -->
+<div class="bg0 p-t-75 p-b-85">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-10 col-lg-10 col-xl-10 m-lr-auto m-b-50">
+                <div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
+                    <div class="row">
+                        <div class="col-12">
+                            <h2>Pagamento Nº {$order.idorder}</h2>
+                            <button type="submit" id="btn-print" class="bor8 bg0 flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-t-22">Impirmir</button>
+                            <iframe class="bor10 p-tb-20 p-lr-20 m-t-22" src="/boleto/{$order.idorder}" name="boleto" frameborder="0" style="width: 100%; min-height: 1000px;"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.querySelector('#btn-print').addEventListener('click', function(event) {
+        event.preventDefault();
+        window.frames['boleto'].focus();
+        window.frames['boleto'].print();
+    });
+</script>

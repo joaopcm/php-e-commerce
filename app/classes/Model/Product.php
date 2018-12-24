@@ -68,8 +68,10 @@ class Product extends Model {
     public function delete()
     {
         $sql = new Sql();
-        ;
         $sql->select('DELETE FROM tb_productscategories WHERE idproduct = :idproduct', array(
+            ':idproduct' => $this->getidproduct()
+        ));
+        $sql->select('DELETE FROM tb_cartsproducts WHERE idproduct = :idproduct', array(
             ':idproduct' => $this->getidproduct()
         ));
         $sql->select('DELETE FROM tb_products WHERE idproduct = :idproduct', array(
