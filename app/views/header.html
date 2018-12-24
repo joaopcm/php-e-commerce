@@ -15,10 +15,9 @@
         {elseif="$dir[0] === 'pedido'"}Pedido - {function="getenv('COMPANY_NAME')"}
         {/if}
         {if="$dir[0] === 'conta' and !isset($url[2])"}Minha Conta - {function="getenv('COMPANY_NAME')"}
-        {elseif="$dir[0] === 'conta' and isset($url[2]) and $url[2] === 'pedidos'"} Pedidos -
-        {function="getenv('COMPANY_NAME')"}
-        {elseif="$dir[0] === 'conta' and isset($url[2]) and $url[2] === 'pedido'"} Pedido -
-        {function="getenv('COMPANY_NAME')"}
+        {elseif="$dir[0] === 'conta' and isset($url[2]) and $url[2] === 'pedidos'"} Pedidos - {function="getenv('COMPANY_NAME')"}
+        {elseif="$dir[0] === 'conta' and isset($url[2]) and $url[2] === 'pedido'"} Pedido - {function="getenv('COMPANY_NAME')"}
+        {elseif="$dir[0] === 'conta' and isset($url[2]) and $url[2] === 'alterar-senha'"} Alterar Senha - {function="getenv('COMPANY_NAME')"}
         {/if}
     </title>
     <meta charset="UTF-8">
@@ -109,9 +108,9 @@
                                     {include="categories-menu-header"}
                                 </ul>
                             </li>
-                            <li class="label1 {if=" $url[1]==='carrinho'"}active-menu{/if}" data-label1="2">
+                            <!-- <li class="label1 {if=" $url[1]==='carrinho'"}active-menu{/if}" data-label1="2">
                                 <a href="/carrinho">Meu Carrinho</a>
-                            </li>
+                            </li> -->
                             <!-- <li>
                                 <a href="/blog">Blog</a>
                             </li> -->

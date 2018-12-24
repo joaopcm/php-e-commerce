@@ -239,7 +239,7 @@ $app->post('/login', function() {
     } catch(Exception $e) {
         User::setError($e->getMessage());
     }
-    header('Location: /finalizar');
+    header('Location: /');
     exit;
 });
 
@@ -502,4 +502,59 @@ $app->get('/conta/pedido/:idorder', function ($idorder) {
         'cart' => $cart->getValues(),
         'products' => $cart->getProducts()
     ));
+});
+
+/**
+ * Página de alterar senha - GET
+ */
+$app->get('/conta/alterar-senha', function() {
+    User::verifyLogin(false);
+    $page = new Page();
+    $page->setTpl('profile-change-password', array(
+        'changePassError' => User::getError(),
+        'changePassSuccess' => User::getSuccess()
+    ));
+});
+
+/**
+ * Rota de alterar senha - POST
+ */
+$app->post('/conta/alterar-senha', function() {
+    User::verifyLogin(false);
+    $user = User::getFromSession();
+    if (!isset($_POST['current_pass']) || $_POST['current_pass'] === '') {
+        User::setError('Digite sua senha atual.');
+        header('Location: /conta/alterar-senha');
+        exit;
+    }
+    if (!isset($_POST['new_pass']) || $_POST['new_pass'] === '') {
+        User::setError('Digite sua nova senha.');
+        header('Location: /conta/alterar-senha');
+        exit;
+    }
+    if (!isset($_POST['new_pass_confirm']) || $_POST['new_pass_confirm'] === '') {
+        User::setError('Confirme a nova senha.');
+        header('Location: /conta/alterar-senha');
+        exit;
+    }
+    if ($_POST['current_pass'] === $_POST['new_pass']) {
+        User::setError('Digite uma senha diferente da senha atual.');
+        header('Location: /conta/alterar-senha');
+        exit;
+    }
+    if ($_POST['new_pass'] !== $_POST['new_pass_confirm']) {
+        User::setError('A as senhas não são iguais.');
+        header('Location: /conta/alterar-senha');
+        exit;
+    }
+    if (!password_verify($_POST['current_pass'], $user->getdespassword())) {
+        User::setError('A senha atual digitada é inválida.');
+        header('Location: /conta/alterar-senha');
+        exit;
+    }
+    $user->setdespassword($_POST['new_pass']);
+    $user->update();
+    User::setSuccess('Senha alterada com sucesso!');
+    header('Location: /conta/alterar-senha');
+    exit;
 });
