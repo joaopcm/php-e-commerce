@@ -1,0 +1,91 @@
+<!-- breadcrumb -->
+<div class="container">
+    <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg m-t-80">
+        <a href="/" class="stext-109 cl8 hov-cl1 trans-04">
+            Loja
+            <i class="fa fa-angle-right m-l-9 m-r-10"></i>
+        </a>
+        <a href="/conta" class="stext-109 cl8 hov-cl1 trans-04">
+            Minha Conta
+            <i class="fa fa-angle-right m-l-9 m-r-10"></i>
+        </a>
+        <span class="stext-109 cl4">
+            Meus pedidos
+        </span>
+    </div>
+</div>
+<!-- Shoping Cart -->
+<div class="bg0 p-t-75 p-b-85">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-10 col-lg-10 col-xl-10 m-lr-auto m-b-50">
+                <div class="bor10 p-lr-40 p-t-30 p-b-40 m-lr-0-xl p-lr-15-sm">
+                    <div class="row">
+                        <div class="col-12">
+
+                            <div class="row m-b-30">
+                                <div class="col-12">
+                                    <h1>Meus Pedidos</h1>
+                                </div>
+                            </div>
+
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/conta" role="tab">Editar Dados</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/conta/alterar-senha" role="tab">Alterar Senha</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="/conta/pedidos" role="tab">Meus Pedidos</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane fade show active" role="tabpanel">
+                                    <div class="row m-t-40">
+                                        <div class="col-12">
+                                            {if="$orders"}
+                                            <div class="table-responsive">
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">#</th>
+                                                            <th scope="col">Valor Total</th>
+                                                            <th scope="col">Status</th>
+                                                            <th scope="col">Endereço</th>
+                                                            <th scope="col">&nbsp;</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {loop="$orders"}
+                                                        <tr>
+                                                            <td>{$value.idorder}</td>
+                                                            <td>R$ {function="formatPrice($value.vltotal)"}</td>
+                                                            <td>{$value.desstatus}</td>
+                                                            <td>{$value.desaddress}, {$value.desdistrict}, {$value.descity} - {$value.desstate}</td>
+                                                            <td style="width:222px;">
+                                                                <!-- <a href="/pedido/{$value.idorder}" class="btn btn-sm bg8 bor13 hov-btn3 trans-04 pointer">Imprimir</a> -->
+                                                                <a href="/pedido/{$value.idorder}" class="btn btn-sm btn-primary">Imprimir</a>
+                                                                <a href="/conta/pedido/{$value.idorder}" class="btn btn-sm btn-secondary">Detalhes</a>
+                                                            </td>
+                                                        </tr>
+                                                        {/loop}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            {else}
+                                            <div class="alert alert-danger rounded-0" role="alert">
+                                                <strong>Oops!</strong> Parece que você ainda não fez pedidos.
+                                            </div>
+                                            {/if}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

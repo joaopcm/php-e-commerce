@@ -29,3 +29,5 @@ define('ENDERECO', getenv('ENDERECO'));
 define('CIDADE', getenv('CIDADE'));
 define('UF', getenv('UF'));
 define('APP_NAME', getenv('APP_NAME'));
+define('COMPANY_SLOGAN', getenv('COMPANY_SLOGAN'));
+define('TEELFONE', getenv('TEELFONE'));

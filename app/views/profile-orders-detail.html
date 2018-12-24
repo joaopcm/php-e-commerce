@@ -1,0 +1,101 @@
+<!-- breadcrumb -->
+<div class="container">
+    <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg m-t-80">
+        <a href="/" class="stext-109 cl8 hov-cl1 trans-04">
+            Loja
+            <i class="fa fa-angle-right m-l-9 m-r-10"></i>
+        </a>
+        <a href="/conta" class="stext-109 cl8 hov-cl1 trans-04">
+            Minha Conta
+            <i class="fa fa-angle-right m-l-9 m-r-10"></i>
+        </a>
+        <a href="/conta/pedidos" class="stext-109 cl8 hov-cl1 trans-04">
+            Meus Pedidos
+            <i class="fa fa-angle-right m-l-9 m-r-10"></i>
+        </a>
+        <span class="stext-109 cl4">
+            Detalhes
+        </span>
+    </div>
+</div>
+<!-- Shoping Cart -->
+<div class="bg0 p-t-75 p-b-85">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-10 col-lg-10 col-xl-10 m-lr-auto m-b-50">
+                <div class="bor10 p-lr-40 p-t-30 p-b-40 m-lr-0-xl p-lr-15-sm">
+                    <div class="row">
+                        <div class="col-12">
+
+                            <div class="row m-b-30">
+                                <div class="col-12">
+                                    <h1>Detalhes do Pedido Nº {$order.idorder}</h1>
+                                </div>
+                            </div>
+
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/conta" role="tab">Editar Dados</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/conta/alterar-senha" role="tab">Alterar Senha</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="/conta/pedidos" role="tab">Meus Pedidos</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane fade show active" role="tabpanel">
+                                    <div class="row m-t-40">
+                                        <div class="col-12">
+                                            <div class="table-responsive">
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">Produto</th>
+                                                            <th scope="col">Total</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {loop="$products"}
+                                                        <tr>
+                                                            <td>
+                                                                {$value.desproduct} <strong>(×{$value.nrqtd})</strong>
+                                                            </td>
+                                                            <td>
+                                                                <span class="amount">R$ {function="formatPrice($value.vltotal)"}</span>
+                                                            </td>
+                                                        </tr>
+                                                        {/loop}
+                                                    </tbody>
+                                                    <tfoot>
+                                                        <tr class="cart-subtotal">
+                                                            <th>Subtotal</th>
+                                                            <td><span class="amount">R$ {function="formatPrice($cart.vlsubtotal)"}</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="shipping">
+                                                            <th>Frete</th>
+                                                            <td>
+                                                                R$ {function="formatPrice($cart.vlfreight)"}
+                                                                <input type="hidden" class="shipping_method" value="free_shipping" id="shipping_method_0" data-index="0" name="shipping_method[0]">
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="order-total">
+                                                            <th>Total do Pedido</th>
+                                                            <td><strong><span class="amount">R$ {function="formatPrice($cart.vltotal)"}</span></strong> </td>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

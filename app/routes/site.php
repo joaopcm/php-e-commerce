@@ -200,7 +200,7 @@ $app->post('/finalizar', function() {
 		'vltotal' => $cart->getvltotal()
 	));
 	$order->save();
-    header('Location: /pagamento/' . $order->getidorder());
+    header('Location: /pedido/' . $order->getidorder());
     exit;
 });
 
@@ -350,7 +350,7 @@ $app->post('/forgot/reset', function() {
 /**
  * Minha conta - GET
  */
-$app->get('/perfil', function() {
+$app->get('/conta', function() {
     User::verifyLogin(false);
     $user = User::getFromSession();
     $page = new Page();
@@ -364,16 +364,16 @@ $app->get('/perfil', function() {
 /**
  * Salva a edição de um usuário - POST
  */
-$app->post('/perfil', function() {
+$app->post('/conta', function() {
     User::verifyLogin(false);
     if (!isset($_POST['desperson']) || $_POST['desperson'] === '') {
         User::setError('Preencha o seu nome.');
-        header('Location: /perfil');
+        header('Location: /conta');
         exit;
     }
     if (!isset($_POST['desemail']) || $_POST['desemail'] === '') {
         User::setError('Preencha o seu e-mail.');
-        header('Location: /perfil');
+        header('Location: /conta');
         exit;
     }
     $user = User::getFromSession();
@@ -388,14 +388,14 @@ $app->post('/perfil', function() {
     $user->setData($_POST);
     $user->update();
     User::setSuccess('Dados alterados com sucesso!');
-    header('Location: /perfil');
+    header('Location: /conta');
     exit;
 });
 
 /**
- * Página de pagamento - GET
+ * Página de pedido - GET
  */
-$app->get('/pagamento/:idorder', function($idorder) {
+$app->get('/pedido/:idorder', function($idorder) {
     User::verifyLogin(false);
     $order = new Order();
     $order->get((int)$idorder);
@@ -419,6 +419,7 @@ $app->get('/boleto/:idorder', function($idorder) {
     $taxa_boleto = 5.00;
     $data_venc = date("d/m/Y", time() + ($dias_de_prazo_para_pagamento * 86400));  // Prazo de X dias OU informe data: "13/04/2006"; 
     $valor_cobrado = formatPrice($order->getvltotal()); // Valor - REGRA: Sem pontos na milhar e tanto faz com "." ou "," ou com 1 ou 2 ou sem casa decimal
+    $valor_cobrado = str_replace('.', '', $valor_cobrado);
     $valor_cobrado = str_replace(",", ".",$valor_cobrado);
     $valor_boleto=number_format($valor_cobrado+$taxa_boleto, 2, ',', '');
 
@@ -471,4 +472,34 @@ $app->get('/boleto/:idorder', function($idorder) {
     $path = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'res' . DIRECTORY_SEPARATOR . 'boletophp' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR;
     require_once $path . 'funcoes_itau.php';
     require_once $path . 'layout_itau.php';
+});
+
+/**
+ * Página que lista todas as compras de um usuário - GET
+ */
+$app->get('/conta/pedidos', function () {
+    User::verifyLogin(false);
+    $user = User::getFromSession();
+    $page = new Page();
+    $page->setTpl('profile-orders', array(
+        'orders' => $user->getOrders()
+    ));
+});
+
+/**
+ * Página que mostra detalhes de uma compra de um usuário - GET
+ */
+$app->get('/conta/pedido/:idorder', function ($idorder) {
+    User::verifyLogin(false);
+    $order = new Order();
+    $order->get((int)$idorder);
+    $cart = new Cart();
+    $cart->get((int)$order->getidcart());
+    $cart->getCalcTotal();
+    $page = new Page();
+    $page->setTpl('profile-orders-detail', array(
+        'order' => $order->getValues(),
+        'cart' => $cart->getValues(),
+        'products' => $cart->getProducts()
+    ));
 });
