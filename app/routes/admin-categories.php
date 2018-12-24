@@ -30,6 +30,7 @@ $app->get('/categorias', function() {
     $page = new PageAdmin();
     $page->setTpl('categories', array(
         'categories' => $pagination['data'],
+        'count' => count($pagination['data']),
         'search' => $search,
         'pages' => $pages
     ));

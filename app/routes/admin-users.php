@@ -28,6 +28,7 @@ $app->get('/usuarios', function() {
     $page = new PageAdmin();
     $page->setTpl('users', array(
         'users' => $pagination['data'],
+        'count' => count($pagination['data']),
         'search' => $search,
         'pages' => $pages
     ));

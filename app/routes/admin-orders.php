@@ -30,6 +30,7 @@ $app->get('/pedidos', function() {
     $page = new PageAdmin();
     $page->setTpl('orders', array(
         'orders' => $pagination['data'],
+        'count' => count($pagination['data']),
         'search' => $search,
         'pages' => $pages
     ));

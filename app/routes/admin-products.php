@@ -29,6 +29,7 @@ $app->get('/produtos', function() {
     $page = new PageAdmin();
     $page->setTpl('products', array(
         'products' => $pagination['data'],
+        'count' => count($pagination['data']),
         'search' => $search,
         'pages' => $pages
     ));
