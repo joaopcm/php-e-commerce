@@ -8,9 +8,28 @@ use \Loja\Model\User;
  */
 $app->get('/usuarios', function() {
     User::verifyLogin();
+    $search = (isset($_GET['search'])) ? $_GET['search'] : '';
+    $page = (isset($_GET['page'])) ? (int)$_GET['page'] : 1;
+    if ($search != '') {
+        $pagination = User::getPageSearch($search, $page);
+    } else {
+        $pagination = User::getPage($page);
+    }
+    $pages = array();
+    for ($i = 0; $i < $pagination['pages']; $i++) { 
+        array_push($pages, array(
+            'href' => '/admin/usuarios?' . http_build_query(array(
+                'page' => $i + 1,
+                'search' => $search
+            )),
+            'text' => $i + 1
+        ));    
+    }
     $page = new PageAdmin();
     $page->setTpl('users', array(
-        'users' => User::listAll()
+        'users' => $pagination['data'],
+        'search' => $search,
+        'pages' => $pages
     ));
 });
 
