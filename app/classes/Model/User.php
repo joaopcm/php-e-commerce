@@ -391,6 +391,9 @@ class User extends Model {
         );
     }
 
+    /**
+     * Organiza a paginação e busca
+     */
     public static function getPageSearch($search, int $page = 1, int $itemsPerPage = 25)
     {
         $start = ($page - 1) * $itemsPerPage;
