@@ -189,6 +189,11 @@ $app->post('/finalizar', function() {
 		Address::setMsgError("Informe o país.");
 		header('Location: /finalizar');
 		exit;
+    }
+    if (!isset($_POST['paymentMethod']) || $_POST['paymentMethod'] === 'Selecione um método') {
+		Address::setMsgError("Selecione um método de pagamento.");
+		header('Location: /finalizar');
+		exit;
 	}
 	$user = User::getFromSession();
 	$address = new Address();
@@ -205,8 +210,18 @@ $app->post('/finalizar', function() {
 		'idstatus' => OrderStatus::EM_ABERTO,
 		'vltotal' => $cart->getvltotal()
 	));
-	$order->save();
-    header('Location: /pedido/' . $order->getidorder() . '/pagseguro');
+    $order->save();
+    switch ($_POST['paymentMethod']) {
+        case 'boleto':
+            header('Location: /pedido/' . $order->getidorder());
+            break;
+        case 'pagseguro':
+            header('Location: /pedido/' . $order->getidorder() . '/pagseguro');
+            break;
+        case 'paypal':
+            header('Location: /pedido/' . $order->getidorder() . '/paypal');
+            break;
+    }
     exit;
 });
 
@@ -232,6 +247,26 @@ $app->get('/pedido/:idorder/pagseguro', function($idorder) {
         )
     ));
 });
+
+/**
+ * Integração com PayPal
+ */
+$app->get('/pedido/:idorder/paypal', function($idorder) {
+    User::verifyLogin(false);
+    $order = new Order();
+    $order->get((int)$idorder);
+    $cart = $order->getCart();
+    $page = new Page(array(
+        'header' => false,
+        'footer' => false
+    ));
+    $page->setTpl('payment-paypal', array(
+        'order' => $order->getValues(),
+        'cart' => $cart->getValues(),
+        'products' => $cart->getProducts()
+    ));
+});
+
 
 /**
  * Página de login - GET

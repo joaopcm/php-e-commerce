@@ -30,4 +30,6 @@ define('CIDADE', getenv('CIDADE'));
 define('UF', getenv('UF'));
 define('APP_NAME', getenv('APP_NAME'));
 define('COMPANY_SLOGAN', getenv('COMPANY_SLOGAN'));
-define('TEELFONE', getenv('TEELFONE'));
+define('TELEFONE', getenv('TELEFONE'));
+define('PAYPAL_MAIL', getenv('PAYPAL_MAIL'));
+define('PAGSEGURO_MAIL', getenv('PAGSEGURO_MAIL'));

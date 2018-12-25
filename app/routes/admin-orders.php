@@ -39,7 +39,7 @@ $app->get('/pedidos', function() {
 /**
  * Rota de excluir um pedido - GET
  */
-$app->get('/pedidos/:idorder/excluir', function($idorder) {
+$app->get('/pedido/:idorder/excluir', function($idorder) {
     User::verifyLogin();
     $order = new Order();
     $order->get((int)$idorder);

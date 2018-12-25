@@ -36,46 +36,38 @@
 
                                     <label for="zipcode">CEP:</label>
                                     <div class="bor8 bg0 m-b-11">
-                                        <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="deszipcode"
-                                            value="{$cart.deszipcode}" id="zipcode" placeholder="Digite o CEP" required>
+                                        <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="deszipcode" value="{$cart.deszipcode}" id="zipcode" placeholder="Digite o CEP" required>
                                     </div>
-                                    <input type="submit" value="Atualizar CEP" class="bor8 bg0 m-b-22 flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer"
-                                        formaction="/finalizar" formmethod="get">
+                                    <input type="submit" value="Atualizar CEP" class="bor8 bg0 m-b-22 flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer" formaction="/finalizar" formmethod="get">
 
                                     <label for="address">Endereço:</label>
                                     <div class="bor8 bg0 m-b-22">
-                                        <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="desaddress"
-                                            id="address" placeholder="Digite seu endereço" value="{$address.desaddress}">
+                                        <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="desaddress" id="address" placeholder="Digite seu endereço" value="{$address.desaddress}">
                                     </div>
 
                                     <label for="address">Número:</label>
                                     <div class="bor8 bg0 m-b-22">
-                                        <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="desnumber"
-                                            id="address" placeholder="Digite o número do seu endereço" value="{$address.desnumber}">
+                                        <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="desnumber" id="address" placeholder="Digite o número do seu endereço" value="{$address.desnumber}">
                                     </div>
 
                                     <label for="district">Bairro:</label>
                                     <div class="bor8 bg0 m-b-22">
-                                        <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="desdistrict"
-                                            id="district" placeholder="Digite seu bairro" value="{$address.desdistrict}">
+                                        <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="desdistrict" id="district" placeholder="Digite seu bairro" value="{$address.desdistrict}">
                                     </div>
 
                                     <label for="city">Cidade:</label>
                                     <div class="bor8 bg0 m-b-22">
-                                        <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="descity"
-                                            id="city" placeholder="Digite sua cidade" value="{$address.descity}">
+                                        <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="descity" id="city" placeholder="Digite sua cidade" value="{$address.descity}">
                                     </div>
 
                                     <label for="state">Estado:</label>
                                     <div class="bor8 bg0 m-b-22">
-                                        <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="desstate"
-                                            id="state" placeholder="Digite seu estado" value="{$address.desstate}">
+                                        <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="desstate" id="state" placeholder="Digite seu estado" value="{$address.desstate}">
                                     </div>
 
                                     <label for="country">País:</label>
                                     <div class="bor8 bg0 m-b-22">
-                                        <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="descountry"
-                                            id="country" placeholder="Digite seu país" value="{$address.descountry}">
+                                        <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="descountry" id="country" placeholder="Digite seu país" value="{$address.descountry}">
                                     </div>
                                 </div>
                             </div>
@@ -88,7 +80,6 @@
                         <h4 class="mtext-109 cl2 p-b-30">
                             Informações da compra
                         </h4>
-
                         <div class="flex-w flex-t bor12 p-b-13">
                             <div class="size-208">
                                 <span class="stext-110 cl2">
@@ -134,8 +125,27 @@
                                 </span>
                             </div>
                             {/if}
-                            <button type="submit" class="bor8 bg0 flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-lr-auto m-t-22">Continuar</button>
                         </div>
+                        <div class="p-r-18 p-r-0-sm w-full-ssm m-b-22">
+                            <p class="stext-111 cl6 p-t-2">
+                                Selecione um método de pagamento.
+                            </p>
+                            <div class="p-t-15">
+                                <span class="stext-112 cl8">
+                                    Método de pagamento
+                                </span>
+                                <div class="rs1-select2 rs2-select2 bor8 bg0 m-b-12 m-t-9">
+                                    <select class="js-select2" name="paymentMethod">
+                                        <option>Selecione um método</option>
+                                        <option value="boleto">Boleto</option>
+                                        <option value="pagseguro">PagSeguro</option>
+                                        <option value="paypal">PayPal</option>
+                                    </select>
+                                    <div class="dropDownSelect2"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="bor8 bg0 flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-lr-auto m-t-22">Continuar</button>
                     </div>
                 </div>
             </div>
