@@ -623,3 +623,11 @@ $app->post('/conta/alterar-senha', function() {
     header('Location: /conta/alterar-senha');
     exit;
 });
+
+$app->get('/index', function() {
+    $page = new Page(array(
+        'header' => false,
+        'footer' => false
+    ));
+    $page->setTpl('default-index');
+});

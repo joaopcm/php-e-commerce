@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 
 <head>
     {$url = explode('/', $_SERVER['REQUEST_URI'])}
@@ -21,7 +21,7 @@
         {/if}
     </title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=2">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="/res/site/images/icons/favicon.png" />
     <link rel="stylesheet" type="text/css" href="/res/site/vendor/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/res/site/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
@@ -45,6 +45,7 @@
 </head>
 
 <body class="animsition">
+
     <!-- Header -->
     <header>
         <!-- Header desktop -->
@@ -56,9 +57,6 @@
                         Frete grátis para compras acima de R$ 150,00!
                     </div>
                     <div class="right-top-bar flex-w h-full">
-                        <!-- <a href="#" class="flex-c-m trans-04 p-lr-25">
-                            Help & FAQs
-                        </a> -->
                         {if="checkLogin(false)"}
                         <a href="javascript:;;" class="flex-c-m trans-04 p-lr-25">
                             Olá, {function="getUserName()"}
@@ -85,37 +83,30 @@
             <div class="wrap-menu-desktop">
                 <nav class="limiter-menu-desktop container">
                     <!-- Logo desktop -->
-                    <a href="#" class="logo">
+                    <a href="/" class="logo">
                         <img src="/res/site/images/icons/logo-01.png" alt="IMG-LOGO">
                     </a>
                     <!-- Menu desktop -->
                     <div class="menu-desktop">
                         <ul class="main-menu">
                             <li class="{if=" $url[1]===''"}active-menu{/if}">
-                                <a href="/">Loja</a>
-                                <!-- <ul class="sub-menu">
-                                    <li><a href="index.html">Homepage 1</a></li>
-                                    <li><a href="home-02.html">Homepage 2</a></li>
-                                    <li><a href="home-03.html">Homepage 3</a></li>
-                                </ul> -->
+                                <a href="index.html">Início</a>
+                                <ul class="sub-menu">
+                                    <li><a href="#categorias">Top Categorias</a></li>
+                                    <li><a href="#produtos">Top Produtos</a></li>
+                                </ul>
                             </li>
-                            <!-- <li>
-                                <a href="/produtos">Produtos</a>
-                            </li> -->
-                            <li class="{if=" $url[1]==='categoria'"}active-menu{/if}">
+                            <li>
+                                <a href="/produtos" class="{if=" $url[1]==='produtos'"}active-menu{/if}">Loja</a>
+                            </li>
+                            <li class="label1 {if=" $url[1]==='categoria'"}active-menu{/if}" data-label1="hot">
                                 <a href="/">Categorias</a>
                                 <ul class="sub-menu">
                                     {include="categories-menu-header"}
                                 </ul>
                             </li>
-                            <!-- <li class="label1 {if=" $url[1]==='carrinho'"}active-menu{/if}" data-label1="2">
-                                <a href="/carrinho">Meu Carrinho</a>
-                            </li> -->
-                            <!-- <li>
-                                <a href="/blog">Blog</a>
-                            </li> -->
                             <li class="{if=" $url[1]==='sobre'"}active-menu{/if}">
-                                <a href="/about">Sobre</a>
+                                <a href="/sobre">Sobre</a>
                             </li>
                             <li class="{if=" $url[1]==='contato'"}active-menu{/if}">
                                 <a href="/contato">Contato</a>
@@ -127,14 +118,12 @@
                         <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
                             <i class="zmdi zmdi-search"></i>
                         </div>
-                        <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart"
-                            data-notify="{function="getCartNrQtd()"}">
+                        <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="2">
                             <i class="zmdi zmdi-shopping-cart"></i>
                         </div>
-                        <!-- <a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
-                            data-notify="0">
+                        <a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="0">
                             <i class="zmdi zmdi-favorite-outline"></i>
-                        </a> -->
+                        </a>
                     </div>
                 </nav>
             </div>
@@ -150,12 +139,10 @@
                 <div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
                     <i class="zmdi zmdi-search"></i>
                 </div>
-                <div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart"
-                    data-notify="2">
+                <div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart" data-notify="2">
                     <i class="zmdi zmdi-shopping-cart"></i>
                 </div>
-                <a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti"
-                    data-notify="0">
+                <a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti" data-notify="0">
                     <i class="zmdi zmdi-favorite-outline"></i>
                 </a>
             </div>
@@ -176,47 +163,51 @@
                 </li>
                 <li>
                     <div class="right-top-bar flex-w h-full">
-                        <a href="#" class="flex-c-m p-lr-10 trans-04">
-                            Help & FAQs
+                        {if="checkLogin(false)"}
+                        <a href="/conta" class="flex-c-m trans-04 p-lr-25">
+                            Minha conta
                         </a>
-                        <a href="#" class="flex-c-m p-lr-10 trans-04">
-                            My Account
+                        <a href="/logout" class="flex-c-m trans-04 p-lr-25">
+                            Sair
                         </a>
-                        <a href="#" class="flex-c-m p-lr-10 trans-04">
-                            EN
+                        {else}
+                        <a href="/login" class="flex-c-m trans-04 p-lr-25">
+                            Entrar
                         </a>
-                        <a href="#" class="flex-c-m p-lr-10 trans-04">
-                            USD
+                        {/if}
+                        {if="$_SESSION['User']['inadmin'] === '1'"}
+                        <a href="/admin" class="flex-c-m trans-04 p-lr-25">
+                            Gerenciar
                         </a>
+                        {/if}
                     </div>
                 </li>
             </ul>
             <ul class="main-menu-m">
                 <li class="{if=" $url[1]===''"}active-menu{/if}">
-                    <a href="/">Início</a>
-                    <!-- <ul class="sub-menu">
-                        <li><a href="index.html">Homepage 1</a></li>
-                        <li><a href="home-02.html">Homepage 2</a></li>
-                        <li><a href="home-03.html">Homepage 3</a></li>
-                    </ul> -->
+                    <a href="index.html">Início</a>
+                    <ul class="sub-menu-m">
+                        <li><a href="#categorias">Top Categorias</a></li>
+                        <li><a href="#produtos">Top Produtos</a></li>
+                    </ul>
+                    <span class="arrow-main-menu-m">
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </span>
                 </li>
-                <!-- <li>
-                    <a href="/produtos">Produtos</a>
-                </li> -->
+                <li>
+                    <a href="/produtos" class="{if=" $url[1]==='produtos'"}active-menu{/if}">Loja</a>
+                </li>
                 <li class="{if=" $url[1]==='categoria'"}active-menu{/if}">
                     <a href="/">Categorias</a>
                     <ul class="sub-menu-m">
                         {include="categories-menu-header"}
                     </ul>
+                    <span class="arrow-main-menu-m">
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </span>
                 </li>
-                <li class="label1 {if=" $url[1]==='carrinho'"}active-menu{/if}" data-label1="2">
-                    <a href="/carrinho">Meu Carrinho</a>
-                </li>
-                <!-- <li>
-                    <a href="/blog">Blog</a>
-                </li> -->
                 <li class="{if=" $url[1]==='sobre'"}active-menu{/if}">
-                    <a href="/about">Sobre</a>
+                    <a href="/sobre">Sobre</a>
                 </li>
                 <li class="{if=" $url[1]==='contato'"}active-menu{/if}">
                     <a href="/contato">Contato</a>
@@ -227,13 +218,13 @@
         <div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
             <div class="container-search-header">
                 <button class="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
-                    <img src="/res/site/images/icons/icon-close2.png" alt="CLOSE">
+                    <img src="/res/site/images/icons/icon-close2.png" alt="FECHAR">
                 </button>
                 <form class="wrap-search-header flex-w p-l-15">
                     <button class="flex-c-m trans-04">
                         <i class="zmdi zmdi-search"></i>
                     </button>
-                    <input class="plh3" type="text" name="search" placeholder="Search...">
+                    <input class="plh3" type="text" name="search" placeholder="Pesquisar...">
                 </form>
             </div>
         </div>
@@ -252,6 +243,7 @@
             </div>
             <div class="header-cart-content flex-w js-pscroll">
                 <ul class="header-cart-wrapitem w-full">
+                    {if="getCartProducts()"}
                     {loop="getCartProducts()"}
                     <li class="header-cart-item flex-w flex-t m-b-12">
                         <div class="header-cart-item-img">
@@ -267,6 +259,9 @@
                         </div>
                     </li>
                     {/loop}
+                    {else}
+                    Você ainda não adicionou produtos no seu carrinho.
+                    {/if}
                 </ul>
                 <div class="w-full">
                     <div class="header-cart-total w-full p-tb-40">
