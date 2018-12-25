@@ -125,7 +125,7 @@ $app->get('/finalizar', function() {
     User::verifyLogin(false);
     $address = new Address();
     $cart = Cart::getFromSession();
-    if (isset($_GET['deszipcode'])) {
+    if (!isset($_GET['deszipcode'])) {
         $_GET['deszipcode'] = $cart->getdeszipcode();
     }
     if (isset($_GET['deszipcode'])) {
@@ -155,6 +155,7 @@ $app->get('/finalizar', function() {
  * Rota de finalizar compra - POST
  */
 $app->post('/finalizar', function() {
+    User::verifyLogin(false);
     if (!isset($_POST['deszipcode']) || $_POST['deszipcode'] === '') {
         Address::setMsgError('Informe o CEP.');
         header('Location: /finalizar');
@@ -303,7 +304,7 @@ $app->post('/login', function() {
     } catch(Exception $e) {
         User::setError($e->getMessage());
     }
-    header('Location: /');
+    header('Location: /login');
     exit;
 });
 

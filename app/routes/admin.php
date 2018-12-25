@@ -123,3 +123,33 @@ $app->post('/forgot/reset', function() {
     ));
     $page->setTpl('forgot-reset-success');
 });
+
+/**
+ * Gera o usuário administrador padrão
+ */
+$app->get('/auth/generate/admin-user', function() {
+    if (!User::checkAdminUsers()) {
+        $page = new PageAdmin(array(
+            'header' => false,
+            'footer' => false
+        ));
+        $page->setTpl('new-admin-user', array(
+            'username' => 'user.admin',
+            'password' => User::generateDefaulAdminUser()
+        ));
+    } else {
+        header('Location: /admin');
+        exit;
+    }
+});
+
+/**
+ * Limpa o banco de dados - POR QUESTÕES DE SEGURANÇA, ESSA ROTA ESTÁ DESABILITADA
+ */
+// $app->get('/database/truncate/all', function() {
+//     User::verifyLogin();
+//     if (PRODUCTION_MODE === 'true') {
+//         User::truncateAll();
+//         echo 'Você resetou o banco de dados.';
+//     }
+// });

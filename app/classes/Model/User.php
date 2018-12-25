@@ -415,6 +415,48 @@ class User extends Model {
         );
     }
 
+    /**
+     * Verifica se há usuários administradores já cadastrados
+     */
+    public static function checkAdminUsers()
+    {
+        $sql = new Sql();
+        $results = $sql->select('SELECT * FROM tb_users WHERE inadmin = 1');
+        if (count($results) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Gera um usuário administrador padrão
+     */
+    public static function generateDefaulAdminUser()
+    {
+        $sql = new Sql();
+        $sql->query('CALL sp_users_save(:desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)', array(
+            ':desperson' => 'Administrador',
+            ':deslogin' => 'user.admin',
+            ':despassword' => User::getPasswordHash(\substr(md5(date('d/m/Y - H:i:s')), 0, 8)),
+            ':desemail' => NULL,
+            ':nrphone' => NULL,
+            ':inadmin' => 1
+        ));
+        return \substr(md5(date('d/m/Y - H:i:s')), 0, 8);
+    }
+
+    /**
+     * Limpa todas as tabelas do banco de dados - POR QUESTÕES DE SEGURANÇA, ESSA FUNÇÃO ESTÁ DESABILITADA
+     */
+    // public static function truncateAll()
+    // {
+    //     if (PRODUCTION_MODE === 'true') {
+    //         $sql = new Sql();
+    //         $sql->query('CALL sp_truncate_all_tables()');
+    //     }
+    // }
+
 }
 
 ?>
