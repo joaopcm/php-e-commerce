@@ -10,7 +10,6 @@ date_default_timezone_set('America/Sao_Paulo');
 /**
  * Variáveis de ambiente
  */
-define('COMPANY_NAME', getenv('COMPANY_NAME'));
 define('BASE_URL', getenv('BASE_URL'));
 define('PRODUCTION_MODE', getenv('PRODUCTION_MODE'));
 define('MYSQL_USER', getenv('MYSQL_USER'));
@@ -25,11 +24,6 @@ define('AGENCY', getenv('AGENCY'));
 define('ACCOUNT', getenv('ACCOUNT'));
 define('ACCOUNT_DIGIT', getenv('ACCOUNT_DIGIT'));
 define('CNPJ', getenv('CNPJ'));
-define('ENDERECO', getenv('ENDERECO'));
-define('CIDADE', getenv('CIDADE'));
 define('UF', getenv('UF'));
-define('APP_NAME', getenv('APP_NAME'));
-define('COMPANY_SLOGAN', getenv('COMPANY_SLOGAN'));
-define('TELEFONE', getenv('TELEFONE'));
 define('PAYPAL_MAIL', getenv('PAYPAL_MAIL'));
 define('PAGSEGURO_MAIL', getenv('PAGSEGURO_MAIL'));

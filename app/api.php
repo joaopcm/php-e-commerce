@@ -61,6 +61,11 @@ $app->group('/admin', function () use ($app) {
      */
     require_once './routes/admin-orders.php';
 
+    /**
+     * Administração de informações da empresa
+     */
+    require_once './routes/admin-company.php';
+
 });
 
 // Inicia a API

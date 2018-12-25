@@ -1,0 +1,81 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Informações da Empresa
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="/admin"><i class="fa fa-dashboard"></i> Início</a></li>
+            <li><a href="javascript:;;">Sistema</a></li>
+            <li class="active"><a href="/admin/sistema/empresa">Informações da Empresa</a></li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Informações da Empresa</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form role="form" action="/admin/sistema/empresa" method="post">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="descompany">Nome</label>
+                                <input type="text" class="form-control" id="descompany" name="descompany" placeholder="Digite o nome da empresa" value="{$company.descompany}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="desslogan">Slogan</label>
+                                <input type="text" class="form-control" id="desslogan" name="desslogan" placeholder="Digite o slogan da empresa" value="{$company.desslogan}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="desaddress">Endereço</label>
+                                <input type="text" class="form-control" id="desaddress" name="desaddress" placeholder="Digite o endereço da empresa (Exemplo: Rua, número)" value="{$company.desaddress}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="desdistrict">Bairro</label>
+                                <input type="text" class="form-control" id="desdistrict" name="desdistrict" placeholder="Digite o bairro da empresa" value="{$company.desdistrict}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="descity">Cidade</label>
+                                <input type="text" class="form-control" id="descity" name="descity" placeholder="Digite a cidade da empresa" value="{$company.descity}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="desstate">Estado</label>
+                                <input type="text" class="form-control" id="desstate" name="desstate" placeholder="Digite o estado da empresa" value="{$company.desstate}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="deszipcode">CEP</label>
+                                <input type="text" class="form-control" id="deszipcode" name="deszipcode" placeholder="Digite o CEP da empresa" value="{$company.deszipcode}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="nrphone">Telefone</label>
+                                <input type="text" class="form-control" id="nrphone" name="nrphone" placeholder="Digite o telefone da empresa" value="{$company.nrphone}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="desemail">E-mail</label>
+                                <input type="email" class="form-control" id="desemail" name="desemail" placeholder="Digite o endereço de e-mail de contato da empresa" value="{$company.desemail}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="descnpj">CNPJ</label>
+                                <input type="text" class="form-control" id="descnpj" name="descnpj" placeholder="Digite o CNPJ com pontuação da empresa" value="{$company.descnpj}" required>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <button type="submit" class="btn btn-success">Salvar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->

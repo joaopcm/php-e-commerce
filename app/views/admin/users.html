@@ -55,6 +55,10 @@
                     <a href="/admin/usuarios/{$value.iduser}/excluir" onclick="return confirm('Deseja realmente excluir este usuário?')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Excluir</a>
                   </td>
                 </tr>
+                {else}
+                <tr>
+                  <td colspan="6">Nenhum usuário foi encontrado.</td>
+                </tr>
                 {/loop}
               </tbody>
             </table>

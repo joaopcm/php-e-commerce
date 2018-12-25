@@ -17,13 +17,15 @@ class Order extends Model {
     public function save()
     {		
 		$sql = new Sql();
-		$results = $sql->select('CALL sp_orders_save(:idorder, :idcart, :iduser, :idstatus, :idaddress, :vltotal)', array(		
+		$results = $sql->select('CALL sp_orders_save(:idorder, :idcart, :iduser, :idstatus, :idaddress, :vltotal, :paymentMethod, :dtpayment)', array(		
 			':idorder'=>$this->getidorder(),
 			':idcart'=>$this->getidcart(),
 			':iduser'=>$this->getiduser(),
 			':idstatus'=>$this->getidstatus(),
 			':idaddress'=>$this->getidaddress(),
-            ':vltotal'=>$this->getvltotal()
+            ':vltotal'=>$this->getvltotal(),
+            ':paymentMethod' => $this->getpaymentMethod(),
+            ':dtpayment' => (null !== $this->getdtpayment() && $this->getdtpayment() !== '') ? $this->getdtpayment() : NULL
         ));
 		if (count($results) > 0) {
 			$this->setData($results[0]);
@@ -186,6 +188,7 @@ class Order extends Model {
                                     OR e.descity LIKE :search
                                     OR e.desstate LIKE :search
                                     OR e.descountry LIKE :search
+                                    OR a.paymentMethod LIKE :search
                                     ORDER BY a.dtregister DESC
                                     LIMIT $start, $itemsPerPage", array(
                                         ':search' => '%' . $search . '%',

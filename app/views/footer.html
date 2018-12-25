@@ -1,4 +1,5 @@
 <!-- Footer -->
+{include="company-variables"}
 <footer class="bg3 p-t-75 p-b-32">
     <div class="container">
         <div class="row">
@@ -32,7 +33,7 @@
                     Entrar em contato
                 </h4>
                 <p class="stext-107 cl7 size-201">
-                    Alguma dúvida? Encontre-nos na {function="getenv('ENDERECO')"}
+                    Alguma dúvida? Encontre-nos na {$company_desaddress} - {$company_desdistrict}, {$company_descity}, {$company_desstate} - {$company_deszipcode}
                 </p>
             </div>
             <div class="col-sm-6 col-lg-3 p-b-50">
@@ -73,7 +74,7 @@
             </div>
             <p class="stext-107 cl6 txt-center">
                 Copyright &copy;
-                <script>document.write(new Date().getFullYear());</script> Todos os direitos reservados para <a href="{function=" getenv('BASE_URL')"}" target="_blank">{function="getenv('COMPANY_NAME')"}</a> <span class="d-none">Este template foi feito por <a href="https://colorlib.com" target="_blank">Colorlib</a></span>
+                <script>document.write(new Date().getFullYear());</script> Todos os direitos reservados para <a href="{function=" getenv('BASE_URL')"}" target="_blank">{$company_descompany}</a> <span class="d-none">Este template foi feito por <a href="https://colorlib.com" target="_blank">Colorlib</a></span>
             </p>
         </div>
     </div>

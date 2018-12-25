@@ -42,6 +42,10 @@
                                 <a href="/admin/categorias/{$category.idcategory}/produtos/{$value.idproduct}/adicionar" class="btn btn-primary btn-xs pull-right"><i class="fa fa-arrow-right"></i> Adicionar</a>
                             </td>
                             </tr>
+                            {else}
+                            <tr>
+                              <td colspan="3">Nenhum produto foi encontrado.</td>
+                            </tr>
                             {/loop}
                         </tbody>
                     </table>
@@ -72,6 +76,10 @@
                             <td>
                                 <a href="/admin/categorias/{$category.idcategory}/produtos/{$value.idproduct}/remover" class="btn btn-primary btn-xs pull-right"><i class="fa fa-arrow-left"></i> Remover</a>
                             </td>
+                            </tr>
+                            {else}
+                            <tr>
+                                <td colspan="3">Nenhum produto foi encontrado.</td>
                             </tr>
                             {/loop}
                         </tbody>

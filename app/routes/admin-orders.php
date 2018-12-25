@@ -92,6 +92,11 @@ $app->post('/pedido/:idorder/status', function($idorder) {
     }
     $order = new Order();
     $order->get((int)$idorder);
+    if ($_POST['idstatus'] == '3') {
+        $order->setdtpayment(date('Y-m-d H:i:s'));
+    } elseif ($_POST['idstatus'] != '3') {
+        $order->setdtpayment(NULL);
+    }
     $order->setidstatus($_POST['idstatus']);
     $order->save();
     Order::setSuccess('Status atualizado!');

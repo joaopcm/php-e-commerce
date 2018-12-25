@@ -2,6 +2,7 @@
 
 use \Loja\Model\User;
 use \Loja\Model\Cart;
+use \Loja\Model\Company;
 
 /**
  * Formata os valores do sistema
@@ -63,4 +64,13 @@ function getCartProducts()
 function formatDate($date)
 {
     return date('d/m/Y', strtotime($date));
-};
+}
+
+/**
+ * Retorna dados da empresa
+ */
+function getCompany()
+{
+    $company = new Company();
+    return $company->getCurrentValues();
+}

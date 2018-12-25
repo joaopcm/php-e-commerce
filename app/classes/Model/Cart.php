@@ -6,6 +6,7 @@ use \Loja\DB\Sql;
 use \Loja\Model\Model;
 use \Loja\Model\Product;
 use \Loja\Model\User;
+use \Loja\Model\Company;
 
 class Cart extends Model {
 
@@ -175,12 +176,13 @@ class Cart extends Model {
     {
         $nrzipcode = str_replace('-', '', $nrzipcode);
         $totals = $this->getProductsTotals();
+        $company = new Company();
         if ($totals['nrqtd'] > 0) {
             if ($totals['vlheight'] < 2) $totals['vlheight'] = 2;
             if ($totals['vllength'] < 16) $totals['vllength'] = 16;
             if ($totals['vlwidth'] < 11) $totals['vlwidth'] = 11;
             $qs = http_build_query(array(
-                'nCdEmpresa' => COMPANY_NAME,
+                'nCdEmpresa' => $company->getCurrentValues()['descompany'],
                 'sDsSenha' => '',
                 'nCdServico' => '40010',
                 'sCepOrigem' => '03917050',

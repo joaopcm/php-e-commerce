@@ -85,6 +85,10 @@
                                                             <th>Total do Pedido</th>
                                                             <td><strong><span class="amount">R$ {function="formatPrice($cart.vltotal)"}</span></strong> </td>
                                                         </tr>
+                                                        <tr class="order-total">
+                                                            <th>Método de Pagamento</th>
+                                                            <td><span class="amount">{function="ucfirst($order.paymentMethod)"}</span></td>
+                                                        </tr>
                                                     </tfoot>
                                                 </table>
                                             </div>

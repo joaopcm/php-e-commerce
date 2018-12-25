@@ -1,3 +1,4 @@
+{include="../company-variables"}
 <!DOCTYPE html>
 <html>
 
@@ -5,7 +6,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="icon" type="image/png" href="/res/site/images/icons/favicon.png" />
-  <title>Painel Administrativo - {function="getenv('COMPANY_NAME')"}</title>
+  <title>Painel Administrativo - {$company_descompany}</title>
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <link rel="stylesheet" href="/res/admin/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -19,7 +20,6 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 </head>
-
 <body class="hold-transition skin-blue sidebar-mini">
   <div class="wrapper">
     <!-- Main Header -->
@@ -29,7 +29,7 @@
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini"><b>P</b>A</span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><b>Painel</b> {function="getenv('COMPANY_NAME')"}</span>
+        <span class="logo-lg"><b>Painel</b> {$company_descompany}</span>
       </a>
       <!-- Header Navbar -->
       <nav class="navbar navbar-static-top" role="navigation">
@@ -181,7 +181,7 @@
           <div class="pull-left info">
             <p>{function="getUserName()"}</p>
             <!-- Status -->
-            <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+            <a href="javascript:;;"><i class="fa fa-circle text-success"></i> Online</a>
           </div>
         </div>
         <!-- search form (Optional) -->
@@ -203,17 +203,19 @@
           <li><a href="/admin/categorias"><i class="fa fa-tags"></i> <span>Categorias</span></a></li>
           <li><a href="/admin/produtos"><i class="fa fa-dropbox"></i> <span>Produtos</span></a></li>
           <li><a href="/admin/pedidos"><i class="fa fa-list"></i> <span>Pedidos</span></a></li>
-          <!-- <li class="treeview">
-            <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
+          <li class="treeview">
+            <a href="javascript:;;"><i class="fa fa-star"></i> <span>Sistema</span>
               <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
             </a>
             <ul class="treeview-menu">
-              <li><a href="#">Link in level 2</a></li>
-              <li><a href="#">Link in level 2</a></li>
+              <li><a href="/admin/sistema/empresa">Informações da Empresa</a></li>
+              <li><a href="/admin/sistema/pagseguro">PagSeguro</a></li>
+              <li><a href="/admin/sistema/paypal">PayPal</a></li>
+              <li><a href="/admin/sistema/conta-bancaria">Conta Bancária</a></li>
             </ul>
-          </li> -->
+          </li>
         </ul>
         <!-- /.sidebar-menu -->
       </section>

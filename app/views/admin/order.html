@@ -1,3 +1,4 @@
+{include="../company-variables"}
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -27,11 +28,11 @@
             <div class="col-sm-4 invoice-col">
             De
             <address>
-                <strong>{function="getenv('COMPANY_NAME')"}</strong><br>
-                {function="getenv('ENDERECO')"}<br>
-                {function="getenv('CIDADE')"} - {function="getenv('UF')"}<br>
-                Telefone: {function="getenv('TELEFONE')"}<br>
-                E-mail: {function="getenv('MAIL_ADDRESS')"}
+                <strong>{$company_descompany}</strong><br>
+                {$company_desaddress} - {$company_desdistrict}<br>
+                {$company_descity} - {$company_desstate}<br>
+                Telefone: {$company_nrphone}<br>
+                E-mail: {function="getenv('COMPANY_EMAIL')"}
             </address>
             </div>
             <!-- /.col -->
@@ -50,7 +51,10 @@
             <b>Pedido #{$order.idorder}</b><br>
             <br>
             <b>Emitido em:</b> {function="formatDate($order.dtregister)"}<br>
-            <b>Pago em:</b> {function="formatDate($order.dtregister)"}
+            {if="$order.dtpayment != ''"}
+            <b>Pago em:</b> {function="formatDate($order.dtpayment)"}<br>
+            {/if}
+            <b>Status:</b> {$order.desstatus}
             </div>
             <!-- /.col -->
         </div>
@@ -90,12 +94,12 @@
                     <tbody>
                     <tr>
                         <th style="width:180px;">Método de Pagamento:</th>
-                        <td>Boleto</td>
+                        <td>{function="ucfirst($order.paymentMethod)"}</td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                         <th>Parcelas:</th>
                         <td>1x</td>
-                    </tr>
+                    </tr> -->
                     <!--
                     <tr>
                         <th>Valor da Parcela:</th>
@@ -135,7 +139,7 @@
                     <i class="fa fa-pencil"></i> Editar Status
                 </button>
                 <button type="button" onclick="window.open('/boleto/{$order.idstatus}')" class="btn btn-default pull-left" style="margin-left: 5px;">
-                    <i class="fa fa-barcode"></i> Boleto
+                    <i class="fa fa-barcode"></i> Gerar Boleto
                 </button>
                 <button type="button" onclick="window.print()" class="btn btn-primary pull-right" style="margin-right: 5px;">
                     <i class="fa fa-print"></i> Imprimir

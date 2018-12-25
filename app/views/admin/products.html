@@ -17,7 +17,7 @@
       <div class="col-md-12">
         <div class="box box-primary">
           <div class="box-header">
-            <a href="/admin/produtos/cadastrar" class="btn btn-success">Cadastrar Usuário</a>
+            <a href="/admin/produtos/cadastrar" class="btn btn-success">Cadastrar Produto</a>
             <div class="box-tools">
               <form action="/admin/produtos">
                 <div class="input-group input-group-sm" style="width: 150px;">
@@ -57,6 +57,10 @@
                     <a href="/admin/produtos/{$value.idproduct}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Editar</a>
                     <a href="/admin/produtos/{$value.idproduct}/excluir" onclick="return confirm('Deseja realmente excluir este produto?')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Excluir</a>
                   </td>
+                </tr>
+                {else}
+                <tr>
+                  <td colspan="8">Nenhum produto foi encontrado.</td>
                 </tr>
                 {/loop}
               </tbody>

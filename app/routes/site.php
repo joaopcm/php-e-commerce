@@ -8,6 +8,7 @@ use \Loja\Model\Address;
 use \Loja\Model\User;
 use \Loja\Model\Order;
 use \Loja\Model\OrderStatus;
+use \Loja\Model\Company;
 
 /**
  * Página principal da loja - GET
@@ -209,7 +210,8 @@ $app->post('/finalizar', function() {
 		'idaddress' => $address->getidaddress(),
 		'iduser' => $user->getiduser(),
 		'idstatus' => OrderStatus::EM_ABERTO,
-		'vltotal' => $cart->getvltotal()
+        'vltotal' => $cart->getvltotal(),
+        'paymentMethod' => $_POST['paymentMethod']
 	));
     $order->save();
     switch ($_POST['paymentMethod']) {
@@ -479,6 +481,8 @@ $app->get('/boleto/:idorder', function($idorder) {
     $order = New Order();
     $order->get((int)$idorder);
 
+    $company = new Company();
+    $info = $company->getCurrentValues();
     // DADOS DO BOLETO PARA O SEU CLIENTE
     $dias_de_prazo_para_pagamento = 10;
     $taxa_boleto = 5.00;
@@ -497,17 +501,17 @@ $app->get('/boleto/:idorder', function($idorder) {
 
     // DADOS DO SEU CLIENTE
     $dadosboleto["sacado"] = $order->getdesperson();
-    $dadosboleto["endereco1"] = $order->getdesaddress() . ' ' . $order->getdesdistrict();
+    $dadosboleto["endereco1"] = $order->getdesaddress() . ', ' . $order->getdesnumber() . ' - ' . $order->getdesdistrict();
     $dadosboleto["endereco2"] = $order->getdescity() . ' - ' . $order->getdesstate() . ' - ' . $order->getdescountry() . ' - CEP: ' . $order->getdeszipcode();
 
     // INFORMACOES PARA O CLIENTE
-    $dadosboleto["demonstrativo1"] = "Pagamento de Compra na " . COMPANY_NAME;
+    $dadosboleto["demonstrativo1"] = "Pagamento de Compra na " . $info['descompany'];
     $dadosboleto["demonstrativo2"] = "Taxa bancária - R$ 0,00";
     $dadosboleto["demonstrativo3"] = "";
     $dadosboleto["instrucoes1"] = "- Sr. Caixa, cobrar multa de 2% após o vencimento";
     $dadosboleto["instrucoes2"] = "- Receber até 10 dias após o vencimento";
-    $dadosboleto["instrucoes3"] = "- Em caso de dúvidas entre em contato conosco: " . MAIL_ADDRESS;
-    $dadosboleto["instrucoes4"] = "&nbsp; Emitido por " . COMPANY_NAME . " - " . BASE_URL;
+    $dadosboleto["instrucoes3"] = "- Em caso de dúvidas entre em contato conosco: " . $info['desemail'];
+    $dadosboleto["instrucoes4"] = "&nbsp; Emitido por " . $info['descompany'] . " - " . BASE_URL;
 
     // DADOS OPCIONAIS DE ACORDO COM O BANCO OU CLIENTE
     $dadosboleto["quantidade"] = "";
@@ -527,11 +531,11 @@ $app->get('/boleto/:idorder', function($idorder) {
     $dadosboleto["carteira"] = "175";  // Código da Carteira: pode ser 175, 174, 104, 109, 178, ou 157
 
     // SEUS DADOS
-    $dadosboleto["identificacao"] = COMPANY_NAME;
-    $dadosboleto["cpf_cnpj"] = CNPJ;
-    $dadosboleto["endereco"] = ENDERECO;
-    $dadosboleto["cidade_uf"] = CIDADE . ' - ' . UF;
-    $dadosboleto["cedente"] = COMPANY_NAME;
+    $dadosboleto["identificacao"] = $info['descompany'];
+    $dadosboleto["cpf_cnpj"] = $info['descnpj'];
+    $dadosboleto["endereco"] = $info['desaddress'] . ' - ' . $info['desdistrict'];
+    $dadosboleto["cidade_uf"] = $info['descity'] . ' - ' . $info['desstate'];
+    $dadosboleto["cedente"] = $info['descompany'];
 
     // NÃO ALTERAR!
     $path = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'res' . DIRECTORY_SEPARATOR . 'boletophp' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR;
@@ -622,12 +626,4 @@ $app->post('/conta/alterar-senha', function() {
     User::setSuccess('Senha alterada com sucesso!');
     header('Location: /conta/alterar-senha');
     exit;
-});
-
-$app->get('/index', function() {
-    $page = new Page(array(
-        'header' => false,
-        'footer' => false
-    ));
-    $page->setTpl('default-index');
 });
