@@ -206,8 +206,31 @@ $app->post('/finalizar', function() {
 		'vltotal' => $cart->getvltotal()
 	));
 	$order->save();
-    header('Location: /pedido/' . $order->getidorder());
+    header('Location: /pedido/' . $order->getidorder() . '/pagseguro');
     exit;
+});
+
+/**
+ * Integração com PagSeguro
+ */
+$app->get('/pedido/:idorder/pagseguro', function($idorder) {
+    User::verifyLogin(false);
+    $order = new Order();
+    $order->get((int)$idorder);
+    $cart = $order->getCart();
+    $page = new Page(array(
+        'header' => false,
+        'footer' => false
+    ));
+    $page->setTpl('payment-pagseguro', array(
+        'order' => $order->getValues(),
+        'cart' => $cart->getValues(),
+        'products' => $cart->getProducts(),
+        'phone' => array(
+            'areaCode' => substr($order->getnrphone(), 0 , 2),
+            'number' => substr($order->getnrphone(), 2, strlen($order->getnrphone()))
+        )
+    ));
 });
 
 /**
