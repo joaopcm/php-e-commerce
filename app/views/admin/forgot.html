@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+  {include="../company-variables"}
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Recuperar senha - {function="getenv('COMPANY_NAME')"}</title>
+  <title>Recuperar senha - {$company_descompany}</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -26,7 +27,7 @@
 <!-- Automatic element centering -->
 <div class="lockscreen-wrapper">
   <div class="lockscreen-logo">
-    <a href="/admin/forgot"><b>Recuperar</b> {function="getenv('COMPANY_NAME')"}</a>
+    <a href="/admin/forgot"><b>Recuperar</b> {$company_descompany}</a>
   </div>
 
   <!-- START LOCK SCREEN ITEM -->
@@ -53,7 +54,7 @@
     <a href="/admin/login">Ou entre com um usuário diferente</a>
   </div>
   <div class="lockscreen-footer text-center">
-    Copyright &copy; 2018 <b><a href="/" class="text-black">{function="getenv('COMPANY_NAME')"}</a></b><br>
+    Copyright &copy; 2018 <b><a href="/" class="text-black">{$company_descompany}</a></b><br>
     Todos os direitos reservados
   </div>
 </div>
