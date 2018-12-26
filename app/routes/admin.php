@@ -2,14 +2,26 @@
 
 use \Loja\Model\PageAdmin;
 use \Loja\Model\User;
+use \Loja\Model\Category;
+use \Loja\Model\Product;
+use \Loja\Model\Order;
+use \Loja\Model\Chart;
 
 /**
  * Página principal administrativa - GET
  */
 $app->get('/', function () {
+    Chart::getProfitLastFourMonths();
     User::verifyLogin();
     $page = new PageAdmin();
-    $page->setTpl('index');
+    $page->setTpl('index', array(
+        'users' => count(User::listAll()),
+        'categories' => count(Category::listAll()),
+        'products' => count(Product::listAll()),
+        'orders' => count(Order::listAll()),
+        'chartProfit' => Chart::getProfitLastFourMonths(),
+        'chartStatus' => Chart::getOrdersStatus()
+    ));
 });
 
 /**

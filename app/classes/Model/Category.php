@@ -201,6 +201,23 @@ class Category extends Model {
         );
     }
 
+    /**
+     * Retorna as 3 categorias mais compradas
+     */
+    public static function getMostPurchasedCategory()
+    {
+        $sql = new Sql();
+        return $sql->select('SELECT
+                                a.*
+                            FROM tb_categories a
+                                INNER JOIN tb_productscategories b USING(idcategory)
+                                INNER JOIN tb_products c ON b.idproduct = c.idproduct
+                                INNER JOIN tb_cartsproducts d ON c.idproduct = d.idproduct
+                            GROUP BY a.idcategory
+                            ORDER BY SUM(d.idproduct) DESC
+                            LIMIT 3');
+    }
+
 }
 
 ?>

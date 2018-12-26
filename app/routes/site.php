@@ -17,7 +17,8 @@ $app->get('/', function () {
     $page = new Page();
     $products = Product::listAll();
     $page->setTpl('index', array(
-        'products' => Product::checkList($products)
+        'products' => Product::checkList($products),
+        'categories' => Category::getMostPurchasedCategory()
     ));
 });
 
