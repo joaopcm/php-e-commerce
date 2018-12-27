@@ -4,6 +4,7 @@ namespace Loja\Model;
 
 use \Loja\DB\Sql;
 use \Loja\Model\Model;
+use \Loja\Model\Company;
 
 class User extends Model {
 
@@ -163,12 +164,13 @@ class User extends Model {
                     $link = BASE_URL . "admin/forgot/reset?code=$result";
                 } else {
                     $link = BASE_URL . "forgot/reset?code=$result";
-                } 
-                $mailer = new Mailer($data['desemail'], $data['desperson'], 'Redefinir senha da ' . COMPANY_NAME, 'forgot', array(
+                }
+                $company = new Company();
+                $mailer = new Mailer($data['desemail'], $data['desperson'], 'Redefinir senha da ' . $company->getCurrentValues()['descompany'], 'forgot', array(
                     'name' => $data['desperson'],
                     'link' => $link,
-                    'company' => COMPANY_NAME
-                )); 
+                    'company' => $company->getCurrentValues()['descompany']
+                ));
                 $mailer->send();
                 return $link;
             }
@@ -427,23 +429,6 @@ class User extends Model {
         } else {
             return false;
         }
-    }
-
-    /**
-     * Gera um usuário administrador padrão
-     */
-    public static function generateDefaulAdminUser()
-    {
-        $sql = new Sql();
-        $sql->query('CALL sp_users_save(:desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)', array(
-            ':desperson' => 'Administrador',
-            ':deslogin' => 'user.admin',
-            ':despassword' => User::getPasswordHash(\substr(md5(date('d/m/Y - H:i:s')), 0, 8)),
-            ':desemail' => NULL,
-            ':nrphone' => NULL,
-            ':inadmin' => 1
-        ));
-        return \substr(md5(date('d/m/Y - H:i:s')), 0, 8);
     }
 
     /**

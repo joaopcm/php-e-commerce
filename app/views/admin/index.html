@@ -148,7 +148,7 @@
       0: { color: '#00A65A' }
     }
   };
-  var chart = new google.visualization.LineChart(document.getElementById('profit_chart'));
+  var chart = new google.visualization.AreaChart(document.getElementById('profit_chart'));
   chart.draw(data, options);
   }
 
@@ -156,15 +156,15 @@
   function drawStatusChart() {
     var data = google.visualization.arrayToDataTable([
       ['Status', 'Quantidade'],
+      ['Entregue', {$entregue}],
       ['Em Aberto', {$aberto}],
       ['Aguardando Pagamento', {$aguardando}],
-      ['Pago', {$pago}],
-      ['Entregue', {$entregue}]
+      ['Pago', {$pago}]
     ]);
     var options = {
       chartArea: { left: 'auto', top: 'auto' },
       title: 'Status dos Pedidos',
-      pieHole: 0.4,
+      pieHole: 1
     };
     var chart = new google.visualization.PieChart(document.getElementById('statusorder_chart'));
     chart.draw(data, options);

@@ -37,7 +37,7 @@ CREATE TABLE `tb_addresses` (
   PRIMARY KEY (`idaddress`),
   KEY `fk_addresses_persons_idx` (`idperson`),
   CONSTRAINT `fk_addresses_persons` FOREIGN KEY (`idperson`) REFERENCES `tb_persons` (`idperson`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,7 +67,7 @@ CREATE TABLE `tb_carts` (
   PRIMARY KEY (`idcart`),
   KEY `FK_carts_users_idx` (`iduser`),
   CONSTRAINT `fk_carts_users` FOREIGN KEY (`iduser`) REFERENCES `tb_users` (`iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -97,7 +97,7 @@ CREATE TABLE `tb_cartsproducts` (
   KEY `FK_cartsproducts_products_idx` (`idproduct`),
   CONSTRAINT `fk_cartsproducts_carts` FOREIGN KEY (`idcart`) REFERENCES `tb_carts` (`idcart`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_cartsproducts_products` FOREIGN KEY (`idproduct`) REFERENCES `tb_products` (`idproduct`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -121,7 +121,7 @@ CREATE TABLE `tb_categories` (
   `descategory` varchar(32) NOT NULL,
   `dtregister` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`idcategory`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -130,6 +130,7 @@ CREATE TABLE `tb_categories` (
 
 LOCK TABLES `tb_categories` WRITE;
 /*!40000 ALTER TABLE `tb_categories` DISABLE KEYS */;
+INSERT INTO `tb_categories` VALUES (1,'Categoria 1','2018-12-27 01:36:25');
 /*!40000 ALTER TABLE `tb_categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -192,7 +193,7 @@ CREATE TABLE `tb_orders` (
   CONSTRAINT `fk_orders_carts` FOREIGN KEY (`idcart`) REFERENCES `tb_carts` (`idcart`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_orders_ordersstatus` FOREIGN KEY (`idstatus`) REFERENCES `tb_ordersstatus` (`idstatus`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_orders_users` FOREIGN KEY (`iduser`) REFERENCES `tb_users` (`iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -243,7 +244,7 @@ CREATE TABLE `tb_persons` (
   `nrphone` bigint(20) DEFAULT NULL,
   `dtregister` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`idperson`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -252,6 +253,7 @@ CREATE TABLE `tb_persons` (
 
 LOCK TABLES `tb_persons` WRITE;
 /*!40000 ALTER TABLE `tb_persons` DISABLE KEYS */;
+INSERT INTO `tb_persons` VALUES (1,'Administrador','joao.pedro6532@gmail.com',0,'2018-12-27 01:27:07');
 /*!40000 ALTER TABLE `tb_persons` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -275,7 +277,7 @@ CREATE TABLE `tb_products` (
   `desurl` varchar(128) NOT NULL,
   `dtregister` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`idproduct`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -330,7 +332,7 @@ CREATE TABLE `tb_users` (
   PRIMARY KEY (`iduser`),
   KEY `FK_users_persons_idx` (`idperson`),
   CONSTRAINT `fk_users_persons` FOREIGN KEY (`idperson`) REFERENCES `tb_persons` (`idperson`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -339,6 +341,7 @@ CREATE TABLE `tb_users` (
 
 LOCK TABLES `tb_users` WRITE;
 /*!40000 ALTER TABLE `tb_users` DISABLE KEYS */;
+INSERT INTO `tb_users` VALUES (1,1,'admin','$2y$12$/S1PCOfUGL9H9lQJ.ewhAulZtimWyWQuq114aNl5Gg/wxN5xxu61i',1,'2018-12-27 01:27:07');
 /*!40000 ALTER TABLE `tb_users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -389,7 +392,7 @@ CREATE TABLE `tb_userspasswordsrecoveries` (
   PRIMARY KEY (`idrecovery`),
   KEY `fk_userspasswordsrecoveries_users_idx` (`iduser`),
   CONSTRAINT `fk_userspasswordsrecoveries_users` FOREIGN KEY (`iduser`) REFERENCES `tb_users` (`iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -715,39 +718,6 @@ DELIMITER ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 ALTER DATABASE `db_ecommerce` CHARACTER SET utf8 COLLATE utf8_general_ci ;
-/*!50003 DROP PROCEDURE IF EXISTS `sp_truncate_all_tables` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`%` PROCEDURE `sp_truncate_all_tables`()
-BEGIN
-
-	SET FOREIGN_KEY_CHECKS=0;
-    TRUNCATE TABLE `tb_addresses`;
-    TRUNCATE TABLE `tb_carts`;
-    TRUNCATE TABLE `tb_cartsproducts`;
-    TRUNCATE TABLE `tb_categories`;
-    TRUNCATE TABLE `tb_orders`;
-    TRUNCATE TABLE `tb_persons`;
-    TRUNCATE TABLE `tb_products`;
-    TRUNCATE TABLE `tb_productscategories`;
-    TRUNCATE TABLE `tb_users`;
-    TRUNCATE TABLE `tb_userslogs`;
-    TRUNCATE TABLE `tb_userspasswordsrecoveries`;
-    SET FOREIGN_KEY_CHECKS=1;
-
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `sp_userspasswordsrecoveries_create` */;
 ALTER DATABASE `db_ecommerce` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -921,4 +891,4 @@ ALTER DATABASE `db_ecommerce` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-12-25 18:26:32
+-- Dump completed on 2018-12-27  0:05:52

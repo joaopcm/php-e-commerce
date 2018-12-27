@@ -12,11 +12,7 @@ class Chart {
     public static function getUsersLastFourMonths()
     {
         $sql = new Sql();
-        $query = "SELECT
-        (SELECT COUNT(iduser) FROM tb_users WHERE dtregister BETWEEN CONCAT(YEAR(NOW()),'-', MONTH(NOW()),'-01') AND CONCAT(YEAR(NOW()),'-', MONTH(NOW()),'-31')) as 'thisMonth',
-        (SELECT COUNT(iduser) FROM tb_users WHERE dtregister BETWEEN CONCAT(YEAR(NOW()),'-', MONTH(DATE_SUB(NOW(), INTERVAL 1 MONTH)),'-01') AND CONCAT(YEAR(NOW()),'-', MONTH(DATE_SUB(NOW(), INTERVAL 1 MONTH)),'-31')) as 'lastMonth',
-        (SELECT COUNT(iduser) FROM tb_users WHERE dtregister BETWEEN CONCAT(YEAR(NOW()),'-', MONTH(DATE_SUB(NOW(), INTERVAL 2 MONTH)),'-01') AND CONCAT(YEAR(NOW()),'-', MONTH(DATE_SUB(NOW(), INTERVAL 2 MONTH)),'-31')) as 'twoMonthsAgo',
-        (SELECT COUNT(iduser) FROM tb_users WHERE dtregister BETWEEN CONCAT(YEAR(NOW()),'-', MONTH(DATE_SUB(NOW(), INTERVAL 3 MONTH)),'-01') AND CONCAT(YEAR(NOW()),'-', MONTH(DATE_SUB(NOW(), INTERVAL 3 MONTH)),'-31')) as 'threeMonthsAgo';";
+        $query = "";
         return $sql->select($query);
     }
 
@@ -26,11 +22,7 @@ class Chart {
     public static function getOrdersLastFourMonths()
     {
         $sql = new Sql();
-        $query = "SELECT
-                    (SELECT COUNT(idorder) FROM tb_orders WHERE dtregister BETWEEN CONCAT(YEAR(NOW()),'-', MONTH(NOW()),'-01') AND CONCAT(YEAR(NOW()),'-', MONTH(NOW()),'-31')) as 'thisMonth',
-                    (SELECT COUNT(idorder) FROM tb_orders WHERE dtregister BETWEEN CONCAT(YEAR(NOW()),'-', MONTH(DATE_SUB(NOW(), INTERVAL 1 MONTH)),'-01') AND CONCAT(YEAR(NOW()),'-', MONTH(DATE_SUB(NOW(), INTERVAL 1 MONTH)),'-31')) as 'lastMonth',
-                    (SELECT COUNT(idorder) FROM tb_orders WHERE dtregister BETWEEN CONCAT(YEAR(NOW()),'-', MONTH(DATE_SUB(NOW(), INTERVAL 2 MONTH)),'-01') AND CONCAT(YEAR(NOW()),'-', MONTH(DATE_SUB(NOW(), INTERVAL 2 MONTH)),'-31')) as 'twoMonthsAgo',
-                    (SELECT COUNT(idorder) FROM tb_orders WHERE dtregister BETWEEN CONCAT(YEAR(NOW()),'-', MONTH(DATE_SUB(NOW(), INTERVAL 3 MONTH)),'-01') AND CONCAT(YEAR(NOW()),'-', MONTH(DATE_SUB(NOW(), INTERVAL 3 MONTH)),'-31')) as 'threeMonthsAgo';";
+        $query = "";
         return $sql->select($query);
     }
 
@@ -45,8 +37,7 @@ class Chart {
                     (SELECT IFNULL(SUM(vltotal), 0) FROM tb_orders WHERE idstatus = 3 AND dtregister BETWEEN CONCAT(YEAR(NOW()),'-', MONTH(DATE_SUB(NOW(), INTERVAL 1 MONTH)),'-01') AND CONCAT(YEAR(NOW()),'-', MONTH(DATE_SUB(NOW(), INTERVAL 1 MONTH)),'-31')) AS 'lastMonth',
                     (SELECT IFNULL(SUM(vltotal), 0) FROM tb_orders WHERE idstatus = 3 AND dtregister BETWEEN CONCAT(YEAR(NOW()),'-', MONTH(DATE_SUB(NOW(), INTERVAL 2 MONTH)),'-01') AND CONCAT(YEAR(NOW()),'-', MONTH(DATE_SUB(NOW(), INTERVAL 2 MONTH)),'-31')) AS 'twoMonthsAgo',
                     (SELECT IFNULL(SUM(vltotal), 0) FROM tb_orders WHERE idstatus = 3 AND dtregister BETWEEN CONCAT(YEAR(NOW()),'-', MONTH(DATE_SUB(NOW(), INTERVAL 3 MONTH)),'-01') AND CONCAT(YEAR(NOW()),'-', MONTH(DATE_SUB(NOW(), INTERVAL 3 MONTH)),'-31')) AS 'threeMonthsAgo'
-                FROM tb_orders
-                LIMIT 1;";
+                LIMIT 1";
         return $sql->select($query);
     }
 
@@ -57,10 +48,10 @@ class Chart {
     {
         $sql = new Sql();
         $query = "SELECT
-                    (SELECT COUNT(idorder) FROM tb_orders WHERE idstatus = 1) AS 'aberto',
-                    (SELECT COUNT(idorder) FROM tb_orders WHERE idstatus = 2) AS 'aguardando',
-                    (SELECT COUNT(idorder) FROM tb_orders WHERE idstatus = 3) AS 'pago',
-                    (SELECT COUNT(idorder) FROM tb_orders WHERE idstatus = 4) AS 'entregue'";
+                    (SELECT IFNULL(COUNT(idorder), 0) FROM tb_orders WHERE idstatus = 1) AS 'aberto',
+                    (SELECT IFNULL(COUNT(idorder), 0) FROM tb_orders WHERE idstatus = 2) AS 'aguardando',
+                    (SELECT IFNULL(COUNT(idorder), 0) FROM tb_orders WHERE idstatus = 3) AS 'pago',
+                    (SELECT IFNULL(COUNT(idorder), 0) FROM tb_orders WHERE idstatus = 4) AS 'entregue'";
         return $sql->select($query);
     }
 

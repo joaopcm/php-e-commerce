@@ -33,6 +33,18 @@ function getUserName()
 }
 
 /**
+ * Retorna a URL do perfil Gravatar de cada usuário logado
+ */
+function getGravatarUrl()
+{
+    $user = User::getFromSession();
+    $url = 'https://www.gravatar.com/avatar/';
+    $email = $user->getdesemail();
+    $hash = md5(strtolower(trim($email)));
+    return $url . $hash;
+}
+
+/**
  * Retorna a quantidade de itens no carrinho
  */
 function getCartNrQtd()

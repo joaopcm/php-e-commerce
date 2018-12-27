@@ -2,7 +2,7 @@
   <input type="hidden" name="cmd" value="_cart">
   <input type="hidden" name="upload" value="1">
   <INPUT TYPE="hidden" name="charset" value="utf-8">
-  <input type="hidden" name="business" value="{function="getenv('PAYPAL_MAIL')">
+  <input type="hidden" name="business" value="{function="getenv('PAYPAL_MAIL')}">
   {loop="$products"}
   <input type="hidden" name="item_name_{$counter + 1}" value="{$value.desproduct}">
   <input type="hidden" name="item_number_{$counter + 1}" value="{$value.idproduct}">
@@ -11,7 +11,6 @@
   {/loop}
   <input type="hidden" name="currency_code" value="BRL">
   <input type="hidden" name="email" value="{$order.desemail}">
-  <!-- <input type="image" name="submit" src="https://www.paypalobjects.com/pt_BR/i/btn/btn_buynow_LG.gif" alt="PayPal - The safer, easier way to pay online"> -->
 </form>
 <script>
   document.forms[0].submit();

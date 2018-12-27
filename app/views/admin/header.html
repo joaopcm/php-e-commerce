@@ -123,17 +123,17 @@
               <!-- Menu Toggle Button -->
               <a href="javascript:;;" class="dropdown-toggle" data-toggle="dropdown">
                 <!-- The user image in the navbar-->
-                <img src="/res/admin/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                <img src="{function="getGravatarUrl()"}" class="user-image" alt="User Image">
                 <!-- hidden-xs hides the username on small devices so only the image appears. -->
                 <span class="hidden-xs">{function="getUserName()"}</span>
               </a>
               <ul class="dropdown-menu">
                 <!-- The user image in the menu -->
                 <li class="user-header">
-                  <img src="/res/admin/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                  <img src="{function="getGravatarUrl()"}" class="img-circle" alt="User Image">
                   <p>
                     {function="getUserName()"}
-                    <small>Administrador</small>
+                    <small>Para alterar seu perfil, acesse <a style="color: white; text-decoration: underline;" href="https://gravatar.com/">Gravatar</a></small>
                   </p>
                 </li>
                 <!-- Menu Body -->
@@ -176,7 +176,7 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel">
           <div class="pull-left image">
-            <img src="/res/admin/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+            <img src="{function="getGravatarUrl()"}" class="img-circle" alt="User Image">
           </div>
           <div class="pull-left info">
             <p>{function="getUserName()"}</p>
